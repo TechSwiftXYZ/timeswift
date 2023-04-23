@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <!-- Matomo Tag Manager -->
+    <script>
+        var _mtm = window._mtm = window._mtm || [];
+        _mtm.push({ 'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start' });
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.async = true; g.src = 'https://matomo.techswift.xyz/js/container_dBCVCe3K.js'; s.parentNode.insertBefore(g, s);
+    </script>
+    <!-- End Matomo Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="View the time and cities across the world. Solve all your timekeeping needs with TimeSwift. Set a timer, start a stopwatch, and more.">
+    <meta name="keywords" content="Timer, Stopwatch, Time, Countdown, Easter countdown, Christmas countdown, world time, world clock, time across the world">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" rel="stylesheet" />
+    <title>TimeSwift | World Clock</title>
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+</head>
+
+<body>
+    <style>
+        body {
+            background: black;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            background-color: rgb(0, 5, 17);
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        hr.solid {
+            border-top: rgb(255, 255, 255)solid;
+        }
+
+        .mainTitle {
+            font-size: 80px;
+            font-weight: bold;
+        }
+
+        .homeLink {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        #navbar button {
+            color: white !important;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white !important;
+            border-radius: 30px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: rgb(255, 255, 255, 0.5);
+            transition: color 0.1s;
+        }
+
+        .nav-item {
+            padding-left: 2px;
+            font-size: large;
+        }
+
+        nav.navbar {
+            position: fixed;
+            top: 0;
+            width: 95%;
+            z-index: 9999;
+            margin-left: 20vw;
+            margin-top: 1vw;
+            width: 60vw
+        }
+
+        #navDropdown {
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white !important;
+            border-radius: 10px;
+        }
+
+        .logoContainer {
+            height: 2vw;
+            width: 6.5vw;
+        }
+
+        #clock {
+            font-weight: bold;
+            font-size: 50px;
+            margin-top: 10px;
+        }
+
+        #clockContainer {
+            position: relative;
+            margin: auto;
+            height: 10vw;
+            /*to make the height and width responsive*/
+            width: 10vw;
+            background: url('assets/Clock.png') no-repeat;
+            /*setting our background image*/
+            background-size: 100%;
+        }
+
+        #hour,
+        #minute,
+        #second {
+            position: absolute;
+            background: rgb(255, 255, 255);
+            border-radius: 10px;
+            transform-origin: bottom;
+        }
+
+        #hour {
+            width: 1.2%;
+            height: 25%;
+            top: 25%;
+            left: 48.85%;
+            opacity: 0.8;
+        }
+
+        #minute {
+            width: 1%;
+            height: 30%;
+            top: 19%;
+            left: 48.9%;
+            opacity: 0.8;
+        }
+
+        #second {
+            width: 0.5%;
+            height: 40%;
+            top: 9%;
+            left: 49.25%;
+            opacity: 0.8;
+            background-color: #ff3030;
+        }
+
+        #currentTimeContainer {
+            font-weight: bold;
+            font-size: 30px;
+            border-radius: 25px;
+            background-color: #ffffff10;
+            box-shadow: 0.15vw 0.15vw 0.15vw rgb(0, 0, 0);
+            margin-left: 40vw;
+            width: 20vw
+        }
+
+        .timeContainer {
+            font-weight: bold;
+            font-size: 30px;
+            border-radius: 25px;
+            background-color: #ffffff10;
+            box-shadow: 0.15vw 0.15vw 0.15vw rgb(0, 0, 0);
+            margin-left: 50px;
+            margin-top: 50px;
+            width: 300px;
+        }
+
+        #firstTimeContainer {
+            margin-left: 175px
+        }
+
+        #footerContainer {
+            margin-top: 50px;
+            margin-bottom: -20px;
+            background-color: #000;
+            box-shadow: inset 0 20px 20px -20px #000;
+        }
+
+        #footerContent {
+            padding-top: 30px;
+            padding-bottom: 10px
+        }
+
+        .footerButton {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .footerButton:hover {
+            color: #767676;
+        }
+
+        .note {
+            font-size: 15px;
+        }
+
+        .footerItem {
+            margin-top: 20px
+        }
+
+        .smallTitle {
+            font-weight: bold;
+            font-size: 20px
+        }
+
+        .info {
+            font-size: 15px;
+        }
+
+        @media only screen and (max-width: 987px) {
+
+            .mainTitle {
+                font-size: 50px;
+            }
+
+            .logoContainer {
+                height: 5vw;
+                width: 10vw
+            }
+
+            .timeContainer {
+                margin-left: 10px;
+            }
+
+            #firstTimeContainer {
+                margin-left: 10px
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+
+            body {
+                font-size: 15px;
+            }
+
+            .mainTitle {
+                font-size: 40px;
+            }
+
+            .logoContainer {
+                height: 7.5vw;
+                width: 20vw
+            }
+
+            .timeContainer {
+                font-size: 20px;
+                margin-left: 50px;
+                border-width: 2px;
+            }
+
+            #clockContainer {
+                height: 30vw;
+                width: 30vw;
+            }
+
+            #firstTimeContainer {
+                margin-left: 50px
+            }
+
+            #currentTimeContainer {
+                width: 75vw;
+                margin-left: 50px
+            }
+        }
+    </style>
+    <section id="navbar">
+        <nav class="navbar navbar-expand-xl navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="./index.html">
+                    <img class="logoContainer" src="./assets/Timeswift-logo-(light).png"></img>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="./index.html">Home</a>
+                        </li>
+                        <li class="nav-item dropdown" data-bs-theme="dark">
+                            <a class="nav-link dropdown-toggle active" aria-current="page" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Clocks
+                            </a>
+                            <ul class="dropdown-menu" id="navDropdown">
+                                <li><a class="dropdown-item" href="./clock.html">Local Clock</a></li>
+                                <li><a class="dropdown-item" href="./worldClock.html">World Clock</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./timer.html">Timer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./stopwatch.html">Stopwatch</a>
+                        </li>
+                        <li class="nav-item dropdown" data-bs-theme="dark">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Countdowns
+                            </a>
+                            <ul class="dropdown-menu" id="navDropdown">
+                                <li><a class="dropdown-item" href="./holidays/easterCountdown.html">Easter</a></li>
+                                <li><a class="dropdown-item" href="./holidays/christmasCountdown.html">Christmas</a>
+                                </li>
+                                <li><a class="dropdown-item" href="./holidays/newYearCountdown.html">New Year</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="./holidays.html">More</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./help.html">Help</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+    <section id="mainContent" style="padding-top: 90px;">
+        <h1 class="mainTitle">World Clock</h1>
+        <hr class="solid">
+        <div class="col-md-4" id="currentTimeContainer">
+            <p class="smallTitle" id="timezoneClock"></p>
+            <div id="clockContainer">
+                <div id="hour"></div>
+                <div id="minute"></div>
+                <div id="second"></div>
+            </div>
+            <div class="clock" id="clock"></div>
+            <div class="info" id="date"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 timeContainer" id="firstTimeContainer">
+                <img src="./assets/flags/gb-eng.png" style="height: 12.5%;width: 15%;">
+                <p class="smallTitle">Time in London, England</p>
+                <div class="clock" id="clockLondon"></div>
+                <div class="info" id="offsetLondon"></div>
+                <div class="info" id="dateLondon"></div>
+            </div>
+            <div class="col-md-4 timeContainer">
+                <img src="./assets/flags/fr.png" style="height: 12.5%;width: 15%;">
+                <p class="smallTitle">Time in Paris, France</p>
+                <div class="clock" id="clockParis"></div>
+                <div class="info" id="offsetParis"></div>
+                <div class="info" id="dateParis"></div>
+            </div>
+            <div class="col-md-4 timeContainer">
+                <img src="./assets/flags/us.png" style="height: 12.5%;width: 15%;">
+                <p class="smallTitle">Time in New York, United States</p>
+                <div class="clock" id="clockNY"></div>
+                <div class="info" id="offsetNY"></div>
+                <div class="info" id="dateNY"></div>
+            </div>
+            <div class="col-md-4 timeContainer">
+                <img src="./assets/flags/jp.png" style="height: 12.5%;width: 15%;">
+                <p class="smallTitle">Time in Tokyo, Japan</p>
+                <div class="clock" id="clockTokyo"></div>
+                <div class="info" id="offsetTokyo"></div>
+                <div class="info" id="dateTokyo"></div>
+            </div>
+            <div class="col-md-4 timeContainer">
+                <img src="./assets/flags/ae.png" style="height: 12.5%;width: 15%;">
+                <p class="smallTitle">Time in Dubai, UAE</p>
+                <div class="clock" id="clockDubai"></div>
+                <div class="info" id="offsetDubai"></div>
+                <div class="info" id="dateDubai"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 timeContainer" id="firstTimeContainer">
+                <img src="./assets/flags/cn.png" style="height: 12.5%;width: 15%;">
+                <p class="smallTitle">Time in Beijing, China</p>
+                <div class="clock" id="clockBeijing"></div>
+                <div class="info" id="offsetBeijing"></div>
+                <div class="info" id="dateBeijing"></div>
+            </div>
+            <div class="col-md-4 timeContainer">
+                <img src="./assets/flags/th.png" style="height: 12.5%;width: 15%;">
+                <p class="smallTitle">Time in Bangkok, Thailand</p>
+                <div class="clock" id="clockBangkok"></div>
+                <div class="info" id="offsetBangkok"></div>
+                <div class="info" id="dateBangkok"></div>
+            </div>
+            <div class="col-md-4 timeContainer">
+                <img src="./assets/flags/us.png" style="height: 12.5%;width: 15%;">
+                <p class="smallTitle">Time in Los Angeles, United States</p>
+                <div class="clock" id="clockLA"></div>
+                <div class="info" id="offsetLA"></div>
+                <div class="info" id="dateLA"></div>
+            </div>
+            <div class="col-md-4 timeContainer">
+                <img src="./assets/flags/kr.png" style="height: 12.5%;width: 15%;">
+                <p class="smallTitle">Time in Seoul, South Korea</p>
+                <div class="clock" id="clockSeoul"></div>
+                <div class="info" id="offsetSeoul"></div>
+                <div class="info" id="dateSeoul"></div>
+            </div>
+            <div class="col-md-4 timeContainer">
+                <img src="./assets/flags/br.png" style="height: 12.5%;width: 15%;">
+                <p class="smallTitle">Time in São Paulo, Brazil</p>
+                <div class="clock" id="clockSãoPaulo"></div>
+                <div class="info" id="offsetSãoPaulo"></div>
+                <div class="info" id="dateSãoPaulo"></div>
+            </div>
+            <h2 id="smallTitle">More cities being added soon...</h2>
+        </div>
+        <footer id="footer">
+            <div class="container-fluid" id="footerContainer">
+                <div class="row" id="footerContent">
+                    <div class="col-md-4 footerItem" id="about">
+                        <h3>About</h3>
+                        <img src="./assets/Timeswift-logo-(light).png" style="width:40%;height:40%;"></img>
+                        <p style="font-size:20px">TimeSwift is about providing a swift and simple solution to people's
+                            timekeeping needs</p>
+                    </div>
+                    <div class="col-md-4 footerItem" id="contact">
+                        <h3>Contact</h3>
+                        <a href="./help.html" class="footerButton">Contact Us</a>
+                    </div>
+                    <div class="col-md-4 footerItem" id="socials">
+                        <h3>Links</h3>
+                        <a href="https://status.techswift.xyz" target="_blank" rel="noopener noreferrer"
+                            class="footerButton">Status</a>
+                    </div>
+                </div>
+                <div class="note">© 2023 techswift.xyz. All rights reserved.</div>
+            </div>
+        </footer>
+    </section>
+    <script>
+        function clock() {
+            let timeMS = Date.now() - 20000;
+            const time = new Date(timeMS).toLocaleTimeString();
+            document.getElementById("clock").innerHTML = time
+        }
+        function date() {
+            let timeMS = Date.now() - 20000;
+            const date = new Date(timeMS).toDateString();
+            document.getElementById("date").innerHTML = date
+        }
+        setInterval(() => {
+            d = new Date(); //object of date()
+            hr = d.getHours();
+            min = d.getMinutes();
+            sec = d.getSeconds() - 20;
+            hr_rotation = 30 * hr + min / 2; //converting current time
+            min_rotation = 6 * min;
+            sec_rotation = 6 * sec;
+
+            hour.style.transform = `rotate(${hr_rotation}deg)`;
+            minute.style.transform = `rotate(${min_rotation}deg)`;
+            second.style.transform = `rotate(${sec_rotation}deg)`;
+        }, 500);
+        clock()
+        setInterval(clock, 500);
+        date()
+        setInterval(date, 1000);
+
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+        document.getElementById("timezoneClock").innerHTML = "Current time in " + timezone + ":"
+
+        function clockTZ(city, timezone) {
+            let localTime = new Date();
+            let utcTime = localTime.getTime() + (localTime.getTimezoneOffset() * 60000);
+            let time = new Date(utcTime + (3600000 * timezone)).toLocaleTimeString();
+            let utcOffset = timezone > 0 ? `+${timezone}` : timezone;
+            document.getElementById(`clock${city}`).innerHTML = time;
+            document.getElementById(`offset${city}`).innerHTML = "UTC " + utcOffset;
+            document.getElementById(`date${city}`).innerHTML = d.toDateString();
+        }
+
+        setInterval(() => {
+            clockTZ("London", 1);
+            clockTZ("Paris", 2);
+            clockTZ("NY", -4);
+            clockTZ("Tokyo", 9);
+            clockTZ("Dubai", 4);
+            clockTZ("Beijing", 8);
+            clockTZ("Bangkok", 7);
+            clockTZ("LA", -7);
+            clockTZ("Seoul", 9)
+            clockTZ("SãoPaulo", -3);
+        }, 500);
+    </script>
+</body>
+
+</html>

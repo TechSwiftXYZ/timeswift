@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <!-- Matomo Tag Manager -->
+    <script>
+        var _mtm = window._mtm = window._mtm || [];
+        _mtm.push({ 'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start' });
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.async = true; g.src = 'https://matomo.techswift.xyz/js/container_dBCVCe3K.js'; s.parentNode.insertBefore(g, s);
+    </script>
+    <!-- End Matomo Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Contact TimeSwift for support. Solve all your timekeeping needs with TimeSwift. Set a timer, start a stopwatch, and more.">
+    <meta name="keywords" content="Timer, Stopwatch, Time, Countdown, Easter countdown, Christmas countdown">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" rel="stylesheet" />
+    <title>TimeSwift | Help</title>
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+</head>
+
+<body>
+    <style>
+        body {
+            background: black;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            background-color: rgb(0, 5, 17);
+            text-align: center;
+        }
+
+        hr.solid {
+            border-top: rgb(255, 255, 255)solid;
+        }
+
+        .mainTitle {
+            font-size: 80px;
+            font-weight: bold;
+        }
+
+        #navbar button {
+            color: white !important;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white !important;
+            border-radius: 30px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: rgb(255, 255, 255, 0.5);
+            transition: color 0.1s;
+        }
+
+        .nav-item {
+            padding-left: 2px;
+            font-size: large;
+        }
+
+        nav.navbar {
+            position: fixed;
+            top: 0;
+            width: 95%;
+            z-index: 9999;
+            margin-left: 20vw;
+            margin-top: 1vw;
+            width: 60vw
+        }
+
+        #navDropdown {
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white !important;
+            border-radius: 10px;
+        }
+
+        .emailForm {
+            padding: 5px;
+            border-radius: 15px;
+        }
+
+        .emailSubmit {
+            padding: 5px;
+            border: 1px solid rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            background-color: #fff;
+            border-width: 2px;
+            border-radius: 30px;
+            font-size: 20px
+        }
+
+        .logoContainer {
+            height: 2vw;
+            width: 6.5vw;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: rgb(0, 5, 17);
+            color: #fff;
+        }
+
+        .accordion-button {
+            background-color: rgb(0, 5, 17);
+            color: #fff;
+        }
+
+        .accordion-body {
+            background-color: rgb(0, 5, 17);
+            color: #fff;
+        }
+
+        #footerContainer {
+            margin-top: 50px;
+            margin-bottom: -20px;
+            background-color: #000;
+            box-shadow: inset 0 20px 20px -20px #000;
+        }
+
+        #footerContent {
+            padding-top: 30px;
+            padding-bottom: 10px
+        }
+
+        .footerButton {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .footerButton:hover {
+            color: #767676;
+        }
+
+        .note {
+            font-size: 15px;
+        }
+
+        .footerItem {
+            margin-top: 20px
+        }
+
+        .smallTitle {
+            font-size: 40px
+        }
+
+        @media only screen and (max-width: 987px) {
+
+            .mainTitle {
+                font-size: 50px;
+            }
+
+            .logoContainer {
+                height: 5vw;
+                width: 10vw
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+
+            body {
+                font-size: 15px;
+            }
+
+            .mainTitle {
+                font-size: 40px;
+            }
+
+            .logoContainer {
+                height: 7.5vw;
+                width: 20vw
+            }
+        }
+    </style>
+    <section id="navbar">
+        <nav class="navbar navbar-expand-xl navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="./index.html">
+                    <img class="logoContainer" src="./assets/Timeswift-logo-(light).png"></img>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="./index.html">Home</a>
+                        </li>
+                        <li class="nav-item dropdown" data-bs-theme="dark">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Clocks
+                            </a>
+                            <ul class="dropdown-menu" id="navDropdown">
+                                <li><a class="dropdown-item" href="./clock.html">Local Clock</a></li>
+                                <li><a class="dropdown-item" href="./worldClock.html">World Clock</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./timer.html">Timer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./stopwatch.html">Stopwatch</a>
+                        </li>
+                        <li class="nav-item dropdown" data-bs-theme="dark">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Countdowns
+                            </a>
+                            <ul class="dropdown-menu" id="navDropdown">
+                                <li><a class="dropdown-item" href="./holidays/easterCountdown.html">Easter</a></li>
+                                <li><a class="dropdown-item" href="./holidays/christmasCountdown.html">Christmas</a>
+                                </li>
+                                <li><a class="dropdown-item" href="./holidays/newYearCountdown.html">New Year</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="./holidays.html">More</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./help.html">Help</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+    <section id="mainContent" style="padding-top: 90px;">
+        <section id="emailForm">
+            <h1 class="mainTitle">Help</h1>
+            <hr class="solid">
+            <div class="smallTitle">Contact Us</div>
+            <form action="./scripts/emailSend.php" method="POST" enctype="application/x-www-form-urlencoded"
+                id="mailForm">
+                Subject:<br>
+                <input type="text" name="name" placeholder="Your name (optional)" class="emailForm"><br>
+                Subject:<br>
+                <input type="text" name="subject" placeholder="Reason for contacting" class="emailForm" required><br>
+                Email:<br>
+                <input type="email" name="email" placeholder="Your email address" class="emailForm" required><br>
+                Message:<br>
+                <textarea name="message" rows="10" cols="30"
+                    placeholder="Your Message. If you've found a bug, give device model and browser name. If you need support, give full details of your issue"
+                    class="emailForm" required></textarea><br><br>
+                <input class="emailSubmit" type="submit" value="Send">
+            </form>
+        </section>
+        <br>
+        <hr class="solid">
+        <div class="smallTitle">FAQ</div>
+        <section id="faq">
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item" id="privacy">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            <strong>Does TimeSwift respect my privacy?</strong>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes. We've taken many steps to make sure TimeSwift is as privacy-respecting as possible.
+                            There are no ads and the analytics tool we use (Matomo On-Premise) is self-hosted on the
+                            website host server located in Germany. These analytics aren't shared with anyone (including
+                            Google).
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item" id="security">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <strong>Is TimeSwift secure?</strong>
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes. TimeSwift is registered with an SSL certificate from Let's Encrypt so uses HTTPS and
+                            is therefore secure.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item" id="websiteHelp">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <strong>Help! The website content isn't loading.</strong>
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            If the website content isn't loading or isn't updating (such as the time is frozen),
+                            make sure that JavaScript isn't disabled in your browser settings. If it isn't
+                            disabled, use the contact form above with your device model and browser name.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item" id="noAds">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            <strong>If there are no ads on TimeSwift, how do you make money?</strong>
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            We don't. We pay for the servers and domain names for TimeSwift completely out of
+                            our own money. In the future we may put ads on the website but we'll take every
+                            step possible to make them as privacy-respecting as possible (like not using
+                            Google Ads).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <hr class="solid">
+        <div class="smallTitle">Analytics Opt-Out</div>
+        <div id="matomo-opt-out"></div>
+        <script
+            src="https://matomo.techswift.xyz/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language=auto&showIntro=1"></script>
+        <footer id="footer">
+            <div class="container-fluid" id="footerContainer">
+                <div class="row" id="footerContent">
+                    <div class="col-md-4 footerItem" id="about">
+                        <h3>About</h3>
+                        <img src="./assets/Timeswift-logo-(light).png" style="width:40%;height:40%;"></img>
+                        <p style="font-size:20px">TimeSwift is about providing a swift and simple solution to people's
+                            timekeeping needs</p>
+                    </div>
+                    <div class="col-md-4 footerItem" id="contact">
+                        <h3>Contact</h3>
+                        <a href="./help.html" class="footerButton">Contact Us</a>
+                    </div>
+                    <div class="col-md-4 footerItem" id="socials">
+                        <h3>Links</h3>
+                        <a href="https://status.techswift.xyz" target="_blank" rel="noopener noreferrer"
+                            class="footerButton">Status</a>
+                    </div>
+                </div>
+                <div class="note">© 2023 techswift.xyz. All rights reserved.</div>
+            </div>
+        </footer>
+    </section>
+</body>
+
+</html>

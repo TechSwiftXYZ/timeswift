@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <!-- Matomo Tag Manager -->
+    <script>
+        var _mtm = window._mtm = window._mtm || [];
+        _mtm.push({ 'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start' });
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.async = true; g.src = 'https://matomo.techswift.xyz/js/container_dBCVCe3K.js'; s.parentNode.insertBefore(g, s);
+    </script>
+    <!-- End Matomo Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Enter any time you like to start a countdown timer. Solve all your timekeeping needs with TimeSwift. Set a timer, start a stopwatch, and more.">
+    <meta name="keywords" content="Timer, Stopwatch, Time, Countdown, counter, time counter, 10 minute timer, 5 minute timer">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" rel="stylesheet" />
+    <title>TimeSwift | Timer</title>
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+</head>
+
+<body>
+    <style>
+        body {
+            background: black;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            background-color: rgb(0, 5, 17);
+            text-align: center;
+        }
+
+        hr.solid {
+            border-top: rgb(255, 255, 255)solid;
+        }
+
+        #navbar button {
+            color: white !important;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white !important;
+            border-radius: 30px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: rgb(255, 255, 255, 0.5);
+            transition: color 0.1s;
+        }
+
+        .nav-item {
+            padding-left: 2px;
+            font-size: large;
+        }
+
+        nav.navbar {
+            position: fixed;
+            top: 0;
+            width: 95%;
+            z-index: 9999;
+            margin-left: 20vw;
+            margin-top: 1vw;
+            width: 60vw
+        }
+
+        #navDropdown {
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white !important;
+            border-radius: 10px;
+        }
+
+        .mainTitle {
+            font-size: 80px;
+            font-weight: bold;
+        }
+
+        #startButton {
+            font-size: 30px;
+            color: #fff;
+            background-color: #00af8c;
+            border-radius: 20px;
+        }
+
+        #pauseButton {
+            font-size: 30px;
+            color: #fff;
+            background-color: #2391ff;
+            border-radius: 20px;
+        }
+
+        #resetButton {
+            font-size: 30px;
+            color: #fff;
+            background-color: #d91600;
+            border-radius: 20px;
+        }
+
+        #muteButton {
+            font-size: 30px;
+            color: #fff;
+            background-color: #343434;
+            border-radius: 20px;
+        }
+
+        #hours {
+            color: #fff;
+            border-radius: 15px;
+            background-color: rgb(0, 5, 17);
+            border: 1px solid rgb(255, 255, 255);
+            border-width: 2px;
+            padding: 5px;
+            margin-top: 5px
+        }
+
+        #minutes {
+            color: #fff;
+            border-radius: 15px;
+            background-color: rgb(0, 5, 17);
+            border: 1px solid rgb(255, 255, 255);
+            border-width: 2px;
+            padding: 5px;
+            margin-top: 5px
+        }
+
+        #seconds {
+            color: #fff;
+            border-radius: 15px;
+            background-color: rgb(0, 5, 17);
+            border: 1px solid rgb(255, 255, 255);
+            border-width: 2px;
+            padding: 5px;
+            margin-top: 5px
+        }
+
+        #Btn5Min {
+            font-size: 30px;
+            color: #000;
+            background-color: #fff;
+            border-radius: 20px;
+        }
+
+        #Btn10Min {
+            font-size: 30px;
+            color: #000;
+            background-color: #fff;
+            border-radius: 20px;
+        }
+
+        #Btn15Min {
+            font-size: 30px;
+            color: #000;
+            background-color: #fff;
+            border-radius: 20px;
+        }
+
+        #timer {
+            font-size: 200px;
+            font-family: 'Roboto Mono';
+            text-shadow: 5px 5px 5px black;
+            font-weight: bold;
+        }
+
+        .smallTitle {
+            font-size: 50px
+        }
+
+        #footerContainer {
+            margin-top: 50px;
+            margin-bottom: -20px;
+            background-color: #000;
+            box-shadow: inset 0 20px 20px -20px #000;
+        }
+
+        #footerContent {
+            padding-top: 30px;
+            padding-bottom: 10px
+        }
+
+        .footerButton {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .footerButton:hover {
+            color: #767676;
+        }
+
+        .note {
+            font-size: 15px;
+        }
+
+        .footerItem {
+            margin-top: 20px
+        }
+
+        .logoContainer {
+            height: 2vw;
+            width: 6.5vw;
+        }
+
+        @media only screen and (max-width: 987px) {
+            .mainTitle {
+                font-size: 50px;
+            }
+
+            .logoContainer {
+                height: 5vw;
+                width: 10vw
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            body {
+                font-size: 15px;
+            }
+
+            .mainTitle {
+                font-size: 40px;
+            }
+
+            .logoContainer {
+                height: 7.5vw;
+                width: 20vw
+            }
+
+            #timer {
+                font-size: 50px
+            }
+
+            #startButton {
+                margin-top: 20px;
+                font-size: 20px;
+            }
+
+            #pauseButton {
+                margin-top: 20px;
+                font-size: 20px;
+            }
+
+            #resetButton {
+                margin-top: 20px;
+                font-size: 20px;
+            }
+
+            #muteButton {
+                margin-top: 20px;
+                font-size: 20px;
+            }
+
+            #Btn5Min {
+                margin-top: 20px;
+                font-size: 20px;
+            }
+
+            #Btn10Min {
+                margin-top: 20px;
+                font-size: 20px;
+            }
+
+            #Btn15Min {
+                margin-top: 20px;
+                font-size: 20px;
+            }
+
+            .smallTitle {
+                font-size: 40px;
+            }
+        }
+    </style>
+
+    <body>
+        <section id="navbar">
+            <nav class="navbar navbar-expand-xl navbar-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="./index.html">
+                        <img class="logoContainer" src="./assets/Timeswift-logo-(light).png"></img>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="./index.html">Home</a>
+                            </li>
+                            <li class="nav-item dropdown" data-bs-theme="dark">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Clocks
+                                </a>
+                                <ul class="dropdown-menu" id="navDropdown">
+                                    <li><a class="dropdown-item" href="./clock.html">Local Clock</a></li>
+                                    <li><a class="dropdown-item" href="./worldClock.html">World Clock</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="./timer.html">Timer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./stopwatch.html">Stopwatch</a>
+                            </li>
+                            <li class="nav-item dropdown" data-bs-theme="dark">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Countdowns
+                                </a>
+                                <ul class="dropdown-menu" id="navDropdown">
+                                    <li><a class="dropdown-item" href="./holidays/easterCountdown.html">Easter</a></li>
+                                    <li><a class="dropdown-item" href="./holidays/christmasCountdown.html">Christmas</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="./holidays/newYearCountdown.html">New Year</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="./holidays.html">More</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./help.html">Help</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </section>
+        <section id="mainContent" style="padding-top: 90px;">
+            <section>
+                <h1 class="mainTitle">Timer</h1>
+                <hr class="solid">
+                <div id="timer">00:00:00</div>
+                <label for="hours">Hours:</label>
+                <input type="number" id="hours" name="hours" min="0" value="0">
+                <label for="minutes">Minutes:</label>
+                <input type="number" id="minutes" name="minutes" min="0" max="59" value="0">
+                <label for="seconds">Seconds:</label>
+                <input type="number" id="seconds" name="seconds" min="0" max="59" value="0">
+                <br>
+                <br>
+                <button class="btn" id="startButton">Start Timer</button>
+                <button class="btn" id="pauseButton">Pause Timer</button>
+                <button class="btn" id="resetButton">Reset Timer</button>
+                <button class="btn" id="muteButton">Mute Sound</button>
+                <hr class="solid">
+                <br>
+                <div class="smallTitle">Quick Timers</div>
+                <br>
+                <button class="btn" id="Btn5Min">5 Minute Timer</button>
+                <button class="btn" id="Btn10Min">10 Minute Timer</button>
+                <button class="btn" id="Btn15Min">15 Minute Timer</button>
+                <audio id="timerEndSound">
+                    <source src="assets/Timer End.mp3" type="audio/mpeg">
+                </audio>
+            </section>
+            <footer id="footer">
+                <div class="container-fluid" id="footerContainer">
+                    <div class="row" id="footerContent">
+                        <div class="col-md-4 footerItem" id="about">
+                            <h3>About</h3>
+                            <img src="./assets/Timeswift-logo-(light).png" style="width:40%;height:40%;"></img>
+                            <p style="font-size:20px">TimeSwift is about providing a swift and simple solution to
+                                people's
+                                timekeeping needs</p>
+                        </div>
+                        <div class="col-md-4 footerItem" id="contact">
+                            <h3>Contact</h3>
+                            <a href="./help.html" class="footerButton">Contact Us</a>
+                        </div>
+                        <div class="col-md-4 footerItem" id="socials">
+                            <h3>Links</h3>
+                            <a href="https://status.techswift.xyz" target="_blank" rel="noopener noreferrer"
+                                class="footerButton">Status</a>
+                        </div>
+                    </div>
+                    <div class="note">© 2023 techswift.xyz. All rights reserved.</div>
+                </div>
+            </footer>
+        </section>
+        <script>
+            // Cache frequently accessed DOM elements
+            const startBtn = document.getElementById('startButton');
+            const pauseBtn = document.getElementById('pauseButton');
+            const resetBtn = document.getElementById('resetButton');
+            const min5Btn = document.getElementById('Btn5Min');
+            const min10Btn = document.getElementById('Btn10Min');
+            const min15Btn = document.getElementById('Btn15Min');
+            const muteBtn = document.getElementById('muteButton');
+
+            const hoursInput = document.getElementById("hours");
+            const minutesInput = document.getElementById("minutes");
+            const secondsInput = document.getElementById("seconds");
+            const display = document.getElementById("timer");
+            var audio = document.getElementById("timerEndSound");
+
+            let intervalId;
+            let totalSeconds = 0;
+            let isPaused = false;
+            let timerRunning = false;
+            let isMuted = false;
+
+            startBtn.addEventListener('click', () => {
+                if (!timerRunning) {
+                    const hours = parseInt(hoursInput.value);
+                    const minutes = parseInt(minutesInput.value);
+                    const seconds = parseInt(secondsInput.value);
+
+                    if (!isNaN(hours) && !isNaN(minutes) && !isNaN(seconds) && hours > 0 || minutes > 0 || seconds > 0) {
+                        startTimer(hours, minutes, seconds);
+                        timerRunning = true;
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }
+            });
+
+            pauseBtn.addEventListener('click', () => {
+                isPaused = !isPaused;
+                if (isPaused == true) {
+                    pauseBtn.innerHTML = 'Unpause Timer'
+                    audio.pause();
+                    audio.currentTime = 0;
+                } else {
+                    pauseBtn.innerHTML = 'Pause Timer'
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+
+            resetBtn.addEventListener('click', () => {
+                restartTimer();
+                timerRunning = false;
+                audio.pause();
+                audio.currentTime = 0;
+            });
+
+            muteBtn.addEventListener('click', () => {
+                isMuted = !isMuted;
+                if (isMuted == true) {
+                    muteBtn.innerHTML = 'Unmute Sound'
+                    audio.pause();
+                    audio.currentTime = 0;
+                } else {
+                    muteBtn.innerHTML = 'Mute Sound'
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+
+            min5Btn.addEventListener('click', () => {
+                if (!timerRunning) {
+                    startTimer(0, 5, 0);
+                    timerRunning = true;
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+
+            min10Btn.addEventListener('click', () => {
+                if (!timerRunning) {
+                    startTimer(0, 10, 0);
+                    timerRunning = true;
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+
+            min15Btn.addEventListener('click', () => {
+                if (!timerRunning) {
+                    startTimer(0, 15, 0);
+                    timerRunning = true;
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+
+            function startTimer(hrs = 0, mins = 0, secs = 0) {
+                totalSeconds = (hrs * 3600) + (mins * 60) + secs;
+
+                if (!isPaused) {
+                    const hoursLeft = parseInt(totalSeconds / 3600);
+                    const minutesLeft = parseInt((totalSeconds % 3600) / 60);
+                    const secondsLeft = parseInt(totalSeconds % 60);
+
+                    display.innerHTML = `${hoursLeft.toString().padStart(2, '0')}:${minutesLeft.toString().padStart(2, '0')}:${secondsLeft.toString().padStart(2, '0')}`;
+
+                    if (totalSeconds === 0) {
+                        clearInterval(intervalId);
+                    } else {
+                        totalSeconds--;
+                    }
+                }
+                intervalId = setInterval(() => {
+                    if (!isPaused) {
+                        const hoursLeft = parseInt(totalSeconds / 3600);
+                        const minutesLeft = parseInt((totalSeconds % 3600) / 60);
+                        const secondsLeft = parseInt(totalSeconds % 60);
+
+                        display.innerHTML = `${hoursLeft.toString().padStart(2, '0')}:${minutesLeft.toString().padStart(2, '0')}:${secondsLeft.toString().padStart(2, '0')}`;
+
+                        if (totalSeconds === 0) {
+                            var counter = 0;
+                            clearInterval(intervalId);
+                            restartTimer();
+                            timerRunning = false;
+                            if (isMuted === false) {
+                                function playAudio() {
+                                    audio.play();
+                                    counter++;
+                                    if (counter < 2) {
+                                        audio.addEventListener('ended', playAudio, false);
+                                    } else {
+                                        audio.removeEventListener('ended', playAudio, false);
+                                    }
+                                }
+                                playAudio()
+                            }
+                        } else {
+                            totalSeconds--;
+                        }
+                    }
+                }, 1000);
+            }
+
+            function restartTimer() {
+                isPaused = false;
+                clearInterval(intervalId);
+                hoursInput.value = 0;
+                minutesInput.value = 0;
+                secondsInput.value = 0;
+                display.innerHTML = "00:00:00";
+            }
+        </script>
+    </body>
+
+</html>

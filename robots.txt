@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /404.html
+Noindex: /404.html
+Disallow: http://time.techswift.xyz
+Noindex: http://time.techswift.xyz
+Sitemap: https://time.techswift.xyz/sitemap.xml

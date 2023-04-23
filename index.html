@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <!-- Matomo Tag Manager -->
+    <script>
+        var _mtm = window._mtm = window._mtm || [];
+        _mtm.push({ 'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start' });
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.async = true; g.src = 'https://matomo.techswift.xyz/js/container_dBCVCe3K.js'; s.parentNode.insertBefore(g, s);
+    </script>
+    <!-- End Matomo Tag Manager -->
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://time.techswift.xyz/assets/apple-touch-icon-180x180.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Solve all your timekeeping needs with TimeSwift. Set a timer, start a stopwatch, countdown to Christmas, view the time across the world and more with TimeSwift.">
+    <meta name="keywords"
+        content="timeswift, Timer, Stopwatch, Time, Countdown, Easter countdown, Christmas countdown, current time, what time is it, current clock, time and date, current date, date today, uk time, time in america">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" rel="stylesheet" />
+    <link rel="canonical" href="https://time.techswift.xyz/" />
+    <title>TimeSwift | Timers, stopwatches, countdowns and more</title>
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+</head>
+
+<body>
+    <style>
+        body {
+            background: black;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            background-color: rgb(0, 5, 17);
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        hr.solid {
+            border-top: rgb(255, 255, 255) solid;
+        }
+
+        .mainTitle {
+            font-weight: bold;
+            font-size: 100px;
+            line-height: 100px;
+        }
+
+        #mainTitleSwitch {
+            font-weight: bold;
+            font-size: 100px;
+            background: linear-gradient(to right, #ff3030,
+                    #ffbb00);
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        #navbar button {
+            color: white !important;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white !important;
+            border-radius: 30px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: rgb(255, 255, 255, 0.5);
+            transition: color 0.1s;
+        }
+
+        .nav-item {
+            padding-left: 2px;
+            font-size: large;
+        }
+
+        nav.navbar {
+            position: fixed;
+            top: 0;
+            width: 95%;
+            z-index: 9999;
+            margin-left: 20vw;
+            margin-top: 1vw;
+            width: 60vw
+        }
+
+        #navDropdown {
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white !important;
+            border-radius: 10px;
+        }
+
+        #timeContainer {
+            text-align: left;
+            font-weight: bold;
+            font-size: 30px;
+            border-radius: 25px;
+            background-color: #ffffff10;
+            box-shadow: 0.15vw 0.15vw 0.15vw rgb(0, 0, 0);
+            margin-left: 20vw;
+            width: 25vw;
+            padding: 10px
+        }
+
+        #timezoneContainer {
+            text-align: left;
+            font-size: 20px;
+            border-radius: 25px;
+            background-color: #ffffff10;
+            box-shadow: 0.15vw 0.15vw 0.15vw rgb(0, 0, 0);
+            margin-left: 20vw;
+            width: 25vw;
+            padding: 10px;
+            padding-bottom: 40px;
+        }
+
+        #clock {
+            font-size: 35px
+        }
+
+        #date {
+            font-size: 20px;
+        }
+
+        #small {
+            font-size: 15px
+        }
+
+        #footerContainer {
+            margin-top: 50px;
+            margin-bottom: -20px;
+            background-color: #000;
+            box-shadow: inset 0 20px 20px -20px #000;
+        }
+
+        #footerContent {
+            padding-top: 30px;
+            padding-bottom: 10px
+        }
+
+        .footerButton {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .footerButton:hover {
+            color: #767676;
+        }
+
+        .note {
+            font-size: 15px;
+        }
+
+        .footerItem {
+            margin-top: 20px
+        }
+
+        .logoContainer {
+            height: 2vw;
+            width: 6.5vw;
+        }
+
+        .smallTitle {
+            font-weight: bold;
+            font-size: 30px
+        }
+
+        .aboutTitle {
+            font-weight: bold;
+            font-size: 25px
+        }
+
+        .divider-vertical {
+            border-left: 1px solid #fff;
+            height: 80%;
+        }
+
+
+        @media only screen and (max-width: 987px) {
+
+            .mainTitle {
+                font-size: 50px;
+                line-height: 60px;
+            }
+
+            #mainTitleSwitch {
+                font-size: 50px;
+            }
+
+            .logoContainer {
+                height: 5vw;
+                width: 10vw
+            }
+
+            #timeContainer {
+                margin-left: 15vw;
+                border-width: 2px;
+                width: 60vw
+            }
+
+            #timezoneContainer {
+                margin-left: -19vw;
+                margin-top: 250px;
+                border-width: 2px;
+                width: 60vw
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .mainTitle {
+                font-size: 40px;
+                line-height: 40px
+            }
+
+            #mainTitleSwitch {
+                font-size: 40px;
+            }
+
+            .logoContainer {
+                height: 7.5vw;
+                width: 20vw
+            }
+
+            #timeContainer {
+                margin-left: 40px;
+                border-width: 2px;
+                width: 80vw
+            }
+
+            #timezoneContainer {
+                margin-left: 40px;
+                border-width: 2px;
+                margin-top: 25px;
+                width: 80vw
+            }
+        }
+    </style>
+    <section id="navbar">
+        <nav class="navbar navbar-expand-xl navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="./index.html">
+                    <img class="logoContainer" src="./assets/Timeswift-logo-(light).png" alt="timeswift logo"></img>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
+                        </li>
+                        <li class="nav-item dropdown" data-bs-theme="dark">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Clocks
+                            </a>
+                            <ul class="dropdown-menu" id="navDropdown">
+                                <li><a class="dropdown-item" href="./clock.html">Local Clock</a></li>
+                                <li><a class="dropdown-item" href="./worldClock.html">World Clock</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./timer.html">Timer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./stopwatch.html">Stopwatch</a>
+                        </li>
+                        <li class="nav-item dropdown" data-bs-theme="dark">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Countdowns
+                            </a>
+                            <ul class="dropdown-menu" id="navDropdown">
+                                <li><a class="dropdown-item" href="./holidays/easterCountdown.html">Easter</a></li>
+                                <li><a class="dropdown-item" href="./holidays/christmasCountdown.html">Christmas</a>
+                                </li>
+                                <li><a class="dropdown-item" href="./holidays/newYearCountdown.html">New Year</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="./holidays.html">More</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./help.html">Help</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+    <section id="mainContent" style="padding-top: 90px;">
+        <h1 id="titleContainer">
+            <div id="title">
+                <div class="mainTitle" id="mainTitle">Streamline your timekeeping with TimeSwift</div>
+            </div>
+        </h1>
+        <hr class="solid">
+        </hr>
+        <section id="quickWidgets">
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="timeContainer">
+                        <h2 id="title">Current Time and Date:</h2>
+                        <div id="clock">00:00:00</div>
+                        <div id="date">00/00/00</div>
+                        <div id="small">Current time in <span id="city"></span></div>
+                        <a href="./clock.html" style="font-size: 20px">View Full Time Page</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div id="timezoneContainer">
+                        <h2 class="smallTitle">Timezone Info:</h2>
+                        <div class="info" id="timezoneLocation"></div>
+                        <div class="info" id="timezoneInfo"></div>
+                        <div class="info" id="timezoneOffset"></div>
+                        <a href="./clock.html" style="font-weight: bold">View Full Timezone Page</a>
+                    </div>
+                </div>
+        </section>
+        <br>
+        <hr class="solid">
+        <br>
+        <section id="aboutTimeswift">
+            <div class="smallTitle">Why TimeSwift?</div>
+            <br>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-shield-lock" viewBox="0 0 16 16">
+                            <path
+                                d="M5.338 1.59a61.44 61.44 0 0 0-2.837.856.481.481 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.725 10.725 0 0 0 2.287 2.233c.346.244.652.42.893.533.12.057.218.095.293.118a.55.55 0 0 0 .101.025.615.615 0 0 0 .1-.025c.076-.023.174-.061.294-.118.24-.113.547-.29.893-.533a10.726 10.726 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 0 1-2.517 2.453 7.159 7.159 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 0 1-1.048-.625 11.777 11.777 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 62.456 62.456 0 0 1 5.072.56z" />
+                            <path
+                                d="M9.5 6.5a1.5 1.5 0 0 1-1 1.415l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99a1.5 1.5 0 1 1 2-1.415z" />
+                        </svg>
+                        <div class="aboutTitle">Private</div>
+                        <p>TimeSwift respects your privacy. We don't use any cookies or invasive trackers and the
+                            analytics tool we use (Matomo On-Premise) is ran on the host servers so no data is shared
+                            with Matomo or Google, and you can even opt out <a href="./help.html">on TimeSwift's help
+                                page</a>.</p>
+                    </div>
+                    <div class="col-md-4 divider-vertical">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-speedometer2" viewBox="0 0 16 16">
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z" />
+                            <path fill-rule="evenodd"
+                                d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z" />
+                        </svg>
+                        <div class="aboutTitle">Fast and simple</div>
+                        <p>TimeSwift streamlines your timekeeping needs. Because we don't use any ads or analytics tools
+                            that have to load in lots
+                            of external trackers, TimeSwift is fast and the simple layout with darker colours is simple
+                            to navigate and easier on the eyes.</p>
+                    </div>
+                    <div class="col-md-4 divider-vertical">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-list-task" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z" />
+                            <path
+                                d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z" />
+                            <path fill-rule="evenodd"
+                                d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z" />
+                        </svg>
+                        <div class="aboutTitle">Helpful</div>
+                        <p>TimeSwift has an extensive list of helpful pages on our website for all your timekeeping
+                            needs like
+                            timers, a stopwatch, holiday countdowns, weather info, the time and date and a world clock
+                            with more being added all the time.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer id="footer">
+            <div class="container-fluid" id="footerContainer">
+                <div class="row" id="footerContent">
+                    <div class="col-md-4 footerItem" id="about">
+                        <h3>About</h3>
+                        <img src="./assets/Timeswift-logo-(light).png" style="width:40%;height:40%;"
+                            alt="timeswift logo"></img>
+                        <p style="font-size:20px">TimeSwift is about providing a swift and simple solution to people's
+                            timekeeping needs</p>
+                    </div>
+                    <div class="col-md-4 footerItem" id="contact">
+                        <h3>Contact</h3>
+                        <a href="./help.html" class="footerButton">Contact Us</a>
+                    </div>
+                    <div class="col-md-4 footerItem" id="socials">
+                        <h3>Links</h3>
+                        <a href="https://status.techswift.xyz" target="_blank" rel="noopener noreferrer"
+                            class="footerButton">Status</a>
+                    </div>
+                </div>
+                <div class="note">© 2023 techswift.xyz. All rights reserved.</div>
+            </div>
+        </footer>
+    </section>
+    <script>
+        const strings = ["timers", "clocks", "stopwatches", "countdowns", "timekeeping"];
+
+        window.onload = () => {
+            function pick() {
+                let random = Math.floor(Math.random() * strings.length);
+                document.getElementById("mainTitle").innerHTML = "Streamline your " + "<br><a id='mainTitleSwitch'>" + strings[random] + "</a>" + " with <br> TimeSwift.";
+            }
+            pick()
+            setInterval(pick, 5000);
+            function clock() {
+                let timeMS = Date.now() - 20000;
+                const time = new Date(timeMS).toLocaleTimeString();
+                document.getElementById("clock").innerHTML = time
+            }
+            function date() {
+                let timeMS = Date.now() - 20000;
+                const date = new Date(timeMS).toDateString();
+                document.getElementById("date").innerHTML = date
+            }
+            clock()
+            setInterval(clock, 500);
+            date()
+            setInterval(date, 1000);
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+            document.getElementById("city").innerHTML = timezone
+            document.getElementById("timezoneLocation").innerHTML = "Timezone location: " + timezone
+            document.getElementById("timezoneInfo").innerHTML = "Timezone name: " + new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4) + ", " + new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'short' }).substring(4)
+            let timeMS = Date.now() - 20000;
+            const timeOffset = new Date(timeMS).getTimezoneOffset();
+            const finalTimeOffset = (timeOffset / 60) - ((timeOffset * 2) / 60)
+            if (finalTimeOffset > 0) {
+                document.getElementById("timezoneOffset").innerHTML = "Time difference (relative to UTC): +" + finalTimeOffset + "hrs"
+            }
+            else {
+                document.getElementById("timezoneOffset").innerHTML = "Time difference (relative to UTC): " + finalTimeOffset + "hrs"
+            }
+        };
+    </script>
+</body>
+
+</html>

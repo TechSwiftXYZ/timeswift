@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <!-- Matomo Tag Manager -->
+    <script>
+        var _mtm = window._mtm = window._mtm || [];
+        _mtm.push({ 'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start' });
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.async = true; g.src = 'https://matomo.techswift.xyz/js/container_dBCVCe3K.js'; s.parentNode.insertBefore(g, s);
+    </script>
+    <!-- End Matomo Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="View the current time, date, timezone, timezone offset and weather. Solve all your timekeeping needs with TimeSwift. Set a timer, start a stopwatch, and more.">
+    <meta name="keywords"
+        content="Time, clock, analogue clock, digital clock, current time, what time is it, timezone, time difference, location, weather, what time does it get dark, sunset, sunrise, uk time, time and date, current date, what date is it">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" rel="stylesheet" />
+    <title>TimeSwift | Local Clock</title>
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+</head>
+
+<body>
+    <style>
+        body {
+            background: black;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            background-color: rgb(0, 5, 17);
+            text-align: center;
+        }
+
+        hr.solid {
+            border-top: rgb(255, 255, 255)solid;
+        }
+
+        .mainTitle {
+            font-size: 80px;
+            font-weight: bold;
+        }
+
+        #navbar button {
+            color: white !important;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white !important;
+            border-radius: 30px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: rgb(255, 255, 255, 0.5);
+            transition: color 0.1s;
+        }
+
+        .nav-item {
+            padding-left: 2px;
+            font-size: large;
+        }
+
+        nav.navbar {
+            position: fixed;
+            top: 0;
+            width: 95%;
+            z-index: 9999;
+            margin-left: 20vw;
+            margin-top: 1vw;
+            width: 60vw
+        }
+
+        #navDropdown {
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white !important;
+            border-radius: 10px;
+        }
+
+        #navbar button {
+            color: white !important;
+        }
+
+        #clock {
+            font-weight: bold;
+            font-size: 50px;
+            margin-top: 10px;
+        }
+
+        #clockContainer {
+            position: relative;
+            margin: auto;
+            height: 15vw;
+            /*to make the height and width responsive*/
+            width: 15vw;
+            background: url('assets/Clock.png') no-repeat;
+            /*setting our background image*/
+            background-size: 100%;
+        }
+
+        #hour,
+        #minute,
+        #second {
+            position: absolute;
+            background: rgb(255, 255, 255);
+            border-radius: 10px;
+            transform-origin: bottom;
+        }
+
+        #hour {
+            width: 1.2%;
+            height: 25%;
+            top: 25%;
+            left: 48.85%;
+            opacity: 0.8;
+        }
+
+        #minute {
+            width: 1%;
+            height: 30%;
+            top: 19%;
+            left: 48.9%;
+            opacity: 0.8;
+        }
+
+        #second {
+            width: 0.5%;
+            height: 40%;
+            top: 9%;
+            left: 49.25%;
+            opacity: 0.8;
+            background-color: #ff3030;
+        }
+
+        .fullscreenButton {
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .fullscreenButton:hover {
+            color: #767676;
+        }
+
+        a {
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+            transition: color 0.1s;
+        }
+
+        .smallTitle {
+            font-weight: bold;
+            font-size: 30px
+        }
+
+        #timeContainer {
+            font-weight: bold;
+            font-size: 30px;
+            border-radius: 25px;
+            background-color: #ffffff10;
+            box-shadow: 0.15vw 0.15vw 0.15vw rgb(0, 0, 0);
+            margin-left: 300px;
+        }
+
+        #otherInfoContainer {
+            border-radius: 25px;
+            background-color: #ffffff10;
+            box-shadow: 0.15vw 0.15vw 0.15vw rgb(0, 0, 0);
+            margin-left: 50px;
+            text-align: left;
+        }
+
+        #otherInfoTitle {
+            text-align: center;
+        }
+
+        #locationContainer {
+            background-color: #ffffff10;
+            border-radius: 25px;
+            box-shadow: 0.15vw 0.15vw 0.15vw rgb(0, 0, 0);
+            margin-top: 50px;
+            margin-left: 300px;
+            text-align: left;
+        }
+
+        #locationTitle {
+            text-align: center;
+        }
+
+        #weatherContainer {
+            background-color: #ffffff10;
+            margin-top: 50px;
+            margin-left: 50px;
+            border-radius: 25px;
+            box-shadow: 0.15vw 0.15vw 0.15vw rgb(0, 0, 0);
+        }
+
+        #osm-map {
+            filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%)
+        }
+
+        #loading {
+            margin-left: 325px
+        }
+
+        #footerContainer {
+            margin-top: 50px;
+            margin-bottom: -20px;
+            background-color: #000;
+            box-shadow: inset 0 20px 20px -20px #000;
+        }
+
+        #footerContent {
+            padding-top: 30px;
+            padding-bottom: 10px
+        }
+
+        .footerButton {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .footerButton:hover {
+            color: #767676;
+        }
+
+        .note {
+            font-size: 15px;
+        }
+
+        .footerItem {
+            margin-top: 20px
+        }
+
+        #weatherInfo {
+            background-color: #00000000;
+            border-radius: 25px;
+        }
+
+        #currentWContainer {
+            font-size: 20px;
+            margin: 0;
+            background-color: rgb(0, 0, 0, 0.75);
+            border-radius: 25px;
+        }
+
+        #currentTemperature {
+            font-size: 45px;
+            font-weight: bold;
+        }
+
+
+        #currentConditions {
+            margin-top: 20px;
+            width: 17.5vw;
+        }
+
+        #weatherTitle {
+            font-size: 10px;
+        }
+
+        #lastUpdated {
+            font-size: 10px;
+        }
+
+        .currentWDContainer {
+            font-size: 15px;
+            margin: 7.5px;
+            background-color: rgb(0, 0, 0, 0.75);
+            border-radius: 25px
+        }
+
+        .currentWNContainer {
+            font-size: 15px;
+            margin: 7.5px;
+            background-color: rgb(0, 0, 0, 0.75);
+            border-radius: 15px
+        }
+
+        #forecastDay1 {
+            font-size: 15px;
+            margin: 7.5px;
+            background-color: rgb(0, 0, 0, 0.75);
+            border-radius: 15px;
+            margin-left: 125px;
+            width: auto;
+        }
+
+        #forecastDay2 {
+            font-size: 15px;
+            margin: 7.5px;
+            background-color: rgb(0, 0, 0, 0.75);
+            border-radius: 15px;
+            width: auto;
+        }
+
+        #forecastDay3 {
+            font-size: 15px;
+            margin: 7.5px;
+            background-color: rgb(0, 0, 0, 0.75);
+            border-radius: 15px;
+            width: auto;
+        }
+
+        #currentDayInfo {
+            margin-left: 5vw;
+            width: auto;
+        }
+
+        #currentAstroInfo {
+            margin-left: 5vw;
+            width: auto;
+        }
+
+        #weatherAttribution {
+            font-size: 15px;
+            margin-top: 5px;
+        }
+
+        #weatherAttribution a {
+            color: #fff
+        }
+
+        .logoContainer {
+            height: 2vw;
+            width: 6.5vw;
+        }
+
+        @media only screen and (max-width: 987px) {
+            .mainTitle {
+                font-size: 50px;
+            }
+
+            #timeContainer {
+                margin-left: 10px;
+            }
+
+            .logoContainer {
+                height: 5vw;
+                width: 10vw
+            }
+
+            #weatherInfo {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin-left: 0;
+            }
+
+            #currentWContainer {
+                display: flex;
+                flex-direction: column;
+                margin-top: 10px;
+                font-size: 20px;
+            }
+
+            #forecastContainer {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                width: auto
+            }
+
+            #forecastDay1,
+            #forecastDay2,
+            #forecastDay3 {
+                width: 70vw;
+                max-width: 150px;
+                margin: 5px
+            }
+
+            #forecastDay1 {
+                width: 50%;
+                margin-right: 15px;
+                margin-bottom: 15px;
+            }
+
+            #forecastDay2 {
+                width: 50%;
+                margin-bottom: 15px;
+            }
+
+            #forecastDay3 {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .currentWDContainer,
+            .currentWNContainer {
+                max-width: 300px;
+                margin: 0 auto;
+                float: none;
+                margin-top: 10px
+            }
+
+
+            #forecastTitle {
+                font-size: 20px;
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
+
+            #weatherTitle {
+                font-size: 16px;
+                padding-top: 10px;
+            }
+
+            #lastUpdated {
+                padding-bottom: 10px;
+            }
+
+            #currentTemperature {
+                font-size: 30px;
+            }
+
+            #currentConditions {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            body {
+                font-size: 15px
+            }
+
+            .mainTitle {
+                font-size: 40px;
+            }
+
+            #timeContainer {
+                font-size: 20px;
+                margin-left: 0px;
+                border-width: 2px;
+            }
+
+            #otherInfoContainer {
+                margin-left: 0;
+                margin-top: 25px;
+                border-width: 2px;
+            }
+
+            #locationContainer {
+                margin-top: 25px;
+                margin-left: 0px;
+                border-width: 2px;
+            }
+
+            #clockContainer {
+                height: 30vw;
+                width: 30vw;
+            }
+
+            #weatherContainer {
+                margin-left: 0;
+            }
+
+            .logoContainer {
+                height: 7.5vw;
+                width: 20vw
+            }
+        }
+    </style>
+    <section id="navbar">
+        <nav class="navbar navbar-expand-xl navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="./index.html">
+                    <img class="logoContainer" src="./assets/Timeswift-logo-(light).png"></img>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="./index.html">Home</a>
+                        </li>
+                        <li class="nav-item dropdown" data-bs-theme="dark">
+                            <a class="nav-link dropdown-toggle active" aria-current="page" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Clocks
+                            </a>
+                            <ul class="dropdown-menu" id="navDropdown">
+                                <li><a class="dropdown-item" href="./clock.html">Local Clock</a></li>
+                                <li><a class="dropdown-item" href="./worldClock.html">World Clock</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./timer.html">Timer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./stopwatch.html">Stopwatch</a>
+                        </li>
+                        <li class="nav-item dropdown" data-bs-theme="dark">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Countdowns
+                            </a>
+                            <ul class="dropdown-menu" id="navDropdown">
+                                <li><a class="dropdown-item" href="./holidays/easterCountdown.html">Easter</a></li>
+                                <li><a class="dropdown-item" href="./holidays/christmasCountdown.html">Christmas</a>
+                                </li>
+                                <li><a class="dropdown-item" href="./holidays/newYearCountdown.html">New Year</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="./holidays.html">More</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./help.html">Help</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+    <section id="mainContent" style="padding-top: 90px;">
+        <section>
+            <div class="container-fluid">
+                <h1 class="mainTitle">Local Time And Date</h1>
+                <hr class="solid">
+                <div class="row">
+                    <div class="col-md-4" id="timeContainer">
+                        <p class="smallTitle" id="timezoneClock"></p>
+                        <div id="clockContainer">
+                            <div id="hour"></div>
+                            <div id="minute"></div>
+                            <div id="second"></div>
+                        </div>
+                        <div class="clock" id="clock"></div>
+                        <div class="info" id="date"></div>
+                        <a href="./clockFullscreen.html" class="fullscreenButton">Fullscreen<svg
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z" />
+                            </svg></a>
+                    </div>
+                    <div class="col-md-4" id="otherInfoContainer">
+                        <div class="smallTitle" id="otherInfoTitle">Other Time Info:</div>
+                        <div class="info" id="timezoneLocation"></div>
+                        <div class="info" id="timezoneInfo"></div>
+                        <div class="info" id="timezoneOffset"></div>
+                        <div>Timezone map:
+                            <br>
+                            <img src="./assets/Timezones.png" class="img-fluid"
+                                alt="World map showing the timezones"></img>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex flex-wrap">
+                    <div class="col-md-4" id="locationContainer">
+                        <div class="smallTitle" id="locationTitle">Location Info:</div>
+                        <div class="note">(Location is based on IP adress so is approximate and is never stored)</div>
+                        <div>Country: <span id="country"></span> (<span id="country_code"></span>)</div>
+                        <div>Region: <span id="state"></span></div>
+                        <div>City: <span id="city"></span></div>
+                        <div>Latitude/Longitude: <span id="latlong"></span></div>
+                        <div id="osm-map">
+                            <div class="spinner-border" id="loading" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="weatherContainer">
+                        <div class="smallTitle">Weather Info:</div>
+                        <div id="weatherInfo">
+                            <div id="weatherTitle"><svg id="locationIcon" xmlns="http://www.w3.org/2000/svg" width="16"
+                                    height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                                    <path
+                                        d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z" />
+                                    <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                </svg><span id="location">Loading...</span></div>
+                            <div class="row" id="currentWContainer">
+                                <div class="col-md-4" id="currentTemps">
+                                    <img id="currentIcon"></img>
+                                    <div><span id="currentTemperature">Loading...</span></div>
+                                </div>
+                                <div class="col-md-4" id="currentConditions">
+                                    <div id="currentCondition"></div>
+                                    <div id="currentFeelslike"></div>
+                                </div>
+                            </div>
+                            <div class="row mx-auto">
+                                <div class="col-md-4 currentWDContainer" id="currentDayInfo">
+                                    <div id="windspeed"></div>
+                                    <div id="windDirection"></div>
+                                    <div id="visibility"></div>
+                                    <div id="uvLevel"></div>
+                                </div>
+                                <div class="col-md-4 currentWNContainer" id="currentAstroInfo">
+                                    <div id="sunrise"></div>
+                                    <div id="sunset"></div>
+                                    <div id="moonPhase"></div>
+                                </div>
+                            </div>
+                            <div class="row" id="forecastContainer">
+                                <div class="col-md-4" id="forecastDay1">
+                                    <div id="titleDay1"></div>
+                                    <img id="conditionDay1"></img>
+                                    <div id="avgTempDay1"></div>
+                                    <div id="maxTempDay1"></div>
+                                    <div id="minTempDay1"></div>
+                                </div>
+                                <div class="col-md-4" id="forecastDay2">
+                                    <div id="titleDay2"></div>
+                                    <img id="conditionDay2"></img>
+                                    <div id="avgTempDay2"></div>
+                                    <div id="maxTempDay2"></div>
+                                    <div id="minTempDay2"></div>
+                                </div>
+                                <div class="col-md-4" id="forecastDay3">
+                                    <div id="titleDay3"></div>
+                                    <img id="conditionDay3"></img>
+                                    <div id="avgTempDay3"></div>
+                                    <div id="maxTempDay3"></div>
+                                    <div id="minTempDay3"></div>
+                                </div>
+                            </div>
+                            <div id="lastUpdated"></div>
+                            <div id="errorDisplay"></div>
+                        </div>
+                        <div id=weatherAttribution>Powered by <a href="https://www.weatherapi.com/"
+                                title="Free Weather API">WeatherAPI.com</a></div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+        <footer id="footer">
+            <div class="container-fluid" id="footerContainer">
+                <div class="row" id="footerContent">
+                    <div class="col-md-4 footerItem" id="about">
+                        <h3>About</h3>
+                        <img src="./assets/Timeswift-logo-(light).png" style="width:40%;height:40%;"></img>
+                        <p style="font-size:20px">TimeSwift is about providing a swift and simple solution to people's
+                            timekeeping needs</p>
+                    </div>
+                    <div class="col-md-4 footerItem" id="contact">
+                        <h3>Contact</h3>
+                        <a href="./help.html" class="footerButton">Contact Us</a>
+                    </div>
+                    <div class="col-md-4 footerItem" id="socials">
+                        <h3>Links</h3>
+                        <a href="https://status.techswift.xyz" target="_blank" rel="noopener noreferrer"
+                            class="footerButton">Status</a>
+                    </div>
+                </div>
+                <div class="note">© 2023 techswift.xyz. All rights reserved.</div>
+            </div>
+        </footer>
+    </section>
+    <script>
+        window.onload = () => {
+            function clock() {
+                let timeMS = Date.now() - 20000;
+                const time = new Date(timeMS).toLocaleTimeString();
+                document.getElementById("clock").innerHTML = time
+            }
+            function date() {
+                let timeMS = Date.now() - 20000;
+                const date = new Date(timeMS).toDateString();
+                document.getElementById("date").innerHTML = date
+            }
+            setInterval(() => {
+                d = new Date(); //object of date()
+                hr = d.getHours();
+                min = d.getMinutes();
+                sec = d.getSeconds() - 20;
+                hr_rotation = 30 * hr + min / 2; //converting current time
+                min_rotation = 6 * min;
+                sec_rotation = 6 * sec;
+
+                hour.style.transform = `rotate(${hr_rotation}deg)`;
+                minute.style.transform = `rotate(${min_rotation}deg)`;
+                second.style.transform = `rotate(${sec_rotation}deg)`;
+            }, 500);
+
+            $.getJSON('https://geolocation-db.com/json/')
+                .done(function (location) {
+                    if (location.city === "null") {
+                        $('#city').html("<Can't fetch city>")
+                        $('#location').html(location.country_name);
+                    } else {
+                        $('#location').html(location.city + ", " + location.country_name);
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "scripts/apiData.php",
+                        data: {
+                            latitude: location.latitude,
+                            longitude: location.longitude
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            $('#state').html(data.location.region);
+                            var background = document.getElementById('weatherInfo');
+                            if (data.current.condition.text === "Light rain" || data.current.condition.text === "Patchy rain possible" || data.current.condition.text === "Torrential rain shower" || data.current.condition.text === "Moderate or heavy rain shower" || data.current.condition.text === "Light rain shower" || data.current.condition.text === "Heavy rain" || data.current.condition.text === "Heavy rain at times" || data.current.condition.text === "Moderate rain" || data.current.condition.text === "Moderate rain at times" || data.current.condition.text === "Patchy light rain" || data.current.condition.text === "Light drizzle" || data.current.condition.text === "Patchy light drizzle") {
+                                background.style = "background-color:#1A3F52;";
+                            }
+                            if (data.current.condition.text === "Sunny" || data.current.condition.text === "Partly cloudy") {
+                                background.style = "background-color:#00A2C8;";
+                            }
+                            if (data.current.condition.text === "Cloudy" || data.current.condition.text === "Overcast" || data.current.condition.text === "Mist" || data.current.condition.text === "Fog") {
+                                background.style = "background-color:#808080;";
+                            }
+                            if (data.current.is_day === 0) {
+                                background.style = "background-color:#171937;";
+                            }
+                            if (data.current.condition.text === "Patchy snow possible" || data.current.condition.text === "Patchy sleet possible" || data.current.condition.text === "Patchy freezing drizzle possible" || data.current.condition.text === "Blowing snow" || data.current.condition.text === "Blizzard" || data.current.condition.text === "Freezing fog" || data.current.condition.text === "Freezing drizzle" || data.current.condition.text === "Heavy freezing drizzle" || data.current.condition.text === "Light freezing rain" || data.current.condition.text === "Moderate or heavy freezing rain" || data.current.condition.text === "Light sleet" || data.current.condition.text === "Moderate or heavy sleet" || data.current.condition.text === "Patchy light snow" || data.current.condition.text === "Light snow" || data.current.condition.text === "Patchy moderate snow" || data.current.condition.text === "Moderate snow" || data.current.condition.text === "Patchy heavy snow" || data.current.condition.text === "Heavy snow" || data.current.condition.text === "Ice pellets" || data.current.condition.text === "Light sleet showers" || data.current.condition.text === "Moderate or heavy sleet showers" || data.current.condition.text === "Light snow showers" || data.current.condition.text === "Moderate or heavy snow showers" || data.current.condition.text === "Light showers of ice pellets" || data.current.condition.text === "Moderate or heavy showers of ice pellets") {
+                                background.style = "background-color:#C0C0C0;";
+                            }
+                            if (data.current.condition.text === "Thundery outbreaks possible" || data.current.condition.text === "Patchy light rain with thunder" || data.current.condition.text === "Moderate or heavy rain with thunder" || data.current.condition.text === "Patchy light snow with thunder" || data.current.condition.text === "Moderate or heavy snow with thunder") {
+                                background.style = "background-color:#131313;";
+                            }
+                            if (location.country_code == "US") {
+                                $('#currentTemperature').html(data.current.temp_f + "°F")
+                                $('#currentFeelslike').html("Feels like " + data.current.feelslike_f + "°F")
+                                $('#windspeed').html("Wind speed: " + data.current.wind_mph + "mph")
+                                $('#visibility').html("Visability: " + data.current.vis_miles + "miles")
+                                $('#avgTempDay1').html(data.forecast.forecastday[0].day.avgtemp_f + "°F")
+                                $('#maxTempDay1').html(data.forecast.forecastday[0].day.maxtemp_f + "°F")
+                                $('#minTempDay1').html(data.forecast.forecastday[0].day.mintemp_f + "°F")
+
+                                $('#avgTempDay2').html(data.forecast.forecastday[1].day.avgtemp_f + "°F")
+                                $('#maxTempDay2').html(data.forecast.forecastday[1].day.maxtemp_f + "°F")
+                                $('#minTempDay2').html(data.forecast.forecastday[1].day.mintemp_f + "°F")
+
+                                $('#avgTempDay3').html(data.forecast.forecastday[2].day.avgtemp_f + "°F")
+                                $('#maxTempDay3').html(data.forecast.forecastday[2].day.maxtemp_f + "°F")
+                                $('#minTempDay3').html(data.forecast.forecastday[2].day.mintemp_f + "°F")
+                            } else {
+                                $('#currentTemperature').html(data.current.temp_c + "°C")
+                                $('#currentFeelslike').html("Feels like " + data.current.feelslike_c + "°C")
+                                $('#windspeed').html("Wind speed: " + data.current.wind_kph + "km/h")
+                                $('#visibility').html("Visability: " + data.current.vis_km + "km")
+                                $('#avgTempDay1').html("Avg temp" + "<br>" + data.forecast.forecastday[0].day.avgtemp_c + "°C")
+                                $('#maxTempDay1').html("Max temp" + "<br>" + data.forecast.forecastday[0].day.maxtemp_c + "°C")
+                                $('#minTempDay1').html("Min temp" + "<br>" + data.forecast.forecastday[0].day.mintemp_c + "°C")
+
+                                $('#avgTempDay2').html("Avg temp" + "<br>" + data.forecast.forecastday[1].day.avgtemp_c + "°C")
+                                $('#maxTempDay2').html("Max temp" + "<br>" + data.forecast.forecastday[1].day.maxtemp_c + "°C")
+                                $('#minTempDay2').html("Min temp" + "<br>" + data.forecast.forecastday[1].day.mintemp_c + "°C")
+
+                                $('#avgTempDay3').html("Avg temp" + "<br>" + data.forecast.forecastday[2].day.avgtemp_c + "°C")
+                                $('#maxTempDay3').html("Max temp" + "<br>" + data.forecast.forecastday[2].day.maxtemp_c + "°C")
+                                $('#minTempDay3').html("Min temp" + "<br>" + data.forecast.forecastday[2].day.mintemp_c + "°C")
+                            }
+                            $('#currentIcon').attr('src', data.current.condition.icon)
+                            $('#currentCondition').html(data.current.condition.text)
+                            $('#windDirection').html("Wind direction: " + data.current.wind_dir)
+                            $('#uvLevel').html("UV Level: " + data.forecast.forecastday[0].day.uv)
+                            $('#sunrise').html("Sunrise: " + data.forecast.forecastday[0].astro.sunrise)
+                            $('#sunset').html("Sunset: " + data.forecast.forecastday[0].astro.sunset)
+                            $('#moonPhase').html("Moon phase:" + "<br>" + data.forecast.forecastday[0].astro.moon_phase)
+                            $('#titleDay1').html(new Date(data.forecast.forecastday[0].date).toLocaleDateString())
+                            $('#titleDay2').html(new Date(data.forecast.forecastday[1].date).toLocaleDateString())
+                            $('#titleDay3').html(new Date(data.forecast.forecastday[2].date).toLocaleDateString())
+                            $('#conditionDay1').attr('src', data.forecast.forecastday[0].day.condition.icon)
+                            $('#conditionDay2').attr('src', data.forecast.forecastday[1].day.condition.icon)
+                            $('#conditionDay3').attr('src', data.forecast.forecastday[2].day.condition.icon)
+                            $('#lastUpdated').html("Last updated at " + new Date(data.current.last_updated).toLocaleTimeString())
+                        },
+                        error: function (xhr, status, error) {
+                            if (error) {
+                                $('#errorDisplay').html(`There was an error. Error status code (use this when reporting the error): ${status}`)
+                            }
+                        }
+                    });
+
+                    $('#country').html(location.country_name);
+                    $('#country_code').html(location.country_code);
+                    $('#city').html(location.city);
+                    $('#latlong').html(location.latitude + ", " + location.longitude);
+
+                    var element = document.getElementById('osm-map');
+                    element.style = 'height:35vh;width:31.75vw;border-radius: 25px';
+
+                    if (window.matchMedia("(max-width: 768px)").matches) {
+                        element.style = 'height:35vh;width:70vw;';
+                    }
+
+                    var map = L.map(element);
+                    L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+                    var target = L.latLng(location.latitude, location.longitude);
+                    map.setView(target, 13);
+                    L.marker(target).addTo(map);
+                });
+            clock()
+            setInterval(clock, 500);
+            date()
+            setInterval(date, 1000);
+
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+            document.getElementById("timezoneClock").innerHTML = "Current time in " + timezone + ":"
+            document.getElementById("timezoneLocation").innerHTML = "Timezone location: " + timezone
+            document.getElementById("timezoneInfo").innerHTML = "Timezone name: " + new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4) + ", " + new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'short' }).substring(4)
+            let timeMS = Date.now() - 20000;
+            const timeOffset = new Date(timeMS).getTimezoneOffset();
+            const finalTimeOffset = (timeOffset / 60) - ((timeOffset * 2) / 60)
+            if (finalTimeOffset > 0) {
+                document.getElementById("timezoneOffset").innerHTML = "Time difference (relative to UTC): +" + finalTimeOffset + "hrs"
+            }
+            else {
+                document.getElementById("timezoneOffset").innerHTML = "Time difference (relative to UTC): " + finalTimeOffset + "hrs"
+            }
+        };
+    </script>
+</body>
+
+</html>
