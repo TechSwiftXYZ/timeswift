@@ -1,6 +1,4 @@
 # TimeSwift
-A sleek, simple and private timekeeping website. Simple and easy to use, your privacy is kept safe with no invasive ads or trackers.
-
 TimeSwift is a timekeeping website with the aims of being private, swift and simple. Listed below are how these things have been achieved:
 
 ## Private
