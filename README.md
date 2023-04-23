@@ -11,3 +11,10 @@ Our website is fast as we don't have to load in cookies or trackers and we've cu
 
 ## Simple
 We use a mix of simple website navigation, easy to use features and a darker colour palette to make TimeSwift as easy to use (and easy on the eyes) as possible.
+
+## Website URL
+TimeSwift can be found at https://time.techswift.xyz. We own the base techswift.xyz link but we are yet to build a project on it but the link is safe and owned by us.
+
+## Extra License Info
+This project is licensed under the GNU General Public License v3.0 license. Details of the license can be found at https://github.com/TechSwiftXYZ/timeswift/blob/main/LICENSE. Although this isn't mandatory nor protected under the license, we kindly ask that if you are to use our code, you modify it as opposed to completely copying it.
+IMPORTANT: If you are to use our code, please remove the Matomo analytics code found in the <head> section of every page or else the analytics of your website/project will be sent to us, not you.
