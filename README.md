@@ -15,6 +15,8 @@ TimeSwift can be found at https://time.techswift.xyz. We own the base techswift.
 
 ## Extra License Info
 This project is licensed under the GNU General Public License v3.0 license. Details of the license can be found at https://github.com/TechSwiftXYZ/timeswift/blob/main/LICENSE. Although this isn't mandatory nor protected under the license, we kindly ask that if you are to use our code, you modify it as opposed to completely copying it.
+Some of our images our from third parties and so their images might use a different license or follow different restrictions. Namely we use Pixabay for stock images and Flagpedia for flag images.
+
 IMPORTANT: If you are to use our code, please remove the Matomo analytics code found in the <head> section of every page or else the analytics of your website/project will be sent to us, not you.
 
 ### Note
