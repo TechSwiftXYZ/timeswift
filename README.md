@@ -4,7 +4,7 @@ A sleek, simple and private timekeeping website. Simple and easy to use, your pr
 TimeSwift is a timekeeping website with the aims of being private, swift and simple. Listed below are how these things have been achieved:
 
 ## Private
-We don't use Google Analytics or Google Ads and instead use Matomo (an open-source, privacy respecting alternative to GA) and currently don't use any ads (although will use privacy-respecting ones if we choose to ad adverts in the future). We also don't collect any data.
+We don't use Google Analytics or Google Ads and instead use Matomo (an open-source, privacy respecting alternative to GA) and currently don't use any ads (although will use privacy-respecting ones if we choose to add advertisements in the future). We also don't collect any data.
 
 ## Speed
 Our website is fast as we don't have to load in cookies or trackers and we've cut down slowness as much as possible throughout our site.
