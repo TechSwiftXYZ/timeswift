@@ -21,19 +21,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.js"
         integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
     <link href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" rel="stylesheet" />
-    <title>TimeSwift | Local Clock</title>
+    <title>Local Clock | TimeSwift</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="https://time.techswift.xyz/assets/apple-touch-icon-180x180.png">
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
 </head>
 
 <body>
     <style>
+        @font-face {
+            font-family: 'Inter';
+            src: url(./assets/inter/Inter-V.ttf);
+        }
+
         body {
             background: black;
             color: #fff;
@@ -41,7 +44,7 @@
             font-size: 20px;
             font-weight: normal;
             letter-spacing: 2px;
-            background-color: rgb(0, 5, 17);
+            background-color: rgb(0, 9, 29);
             text-align: center;
         }
 
@@ -149,16 +152,11 @@
         .fullscreenButton {
             color: #fff;
             font-size: 15px;
+            text-decoration: underline;
         }
 
         .fullscreenButton:hover {
             color: #767676;
-        }
-
-        a {
-            text-decoration: none;
-            color: rgb(0, 0, 0);
-            transition: color 0.1s;
         }
 
         .smallTitle {
@@ -231,6 +229,7 @@
         .footerButton {
             color: #fff;
             font-size: 20px;
+            text-decoration: underline
         }
 
         .footerButton:hover {
@@ -255,6 +254,8 @@
             margin: 0;
             background-color: rgb(0, 0, 0, 0.75);
             border-radius: 25px;
+            width: 90%;
+            margin-left: 5%
         }
 
         #currentTemperature {
@@ -280,7 +281,8 @@
             font-size: 15px;
             margin: 7.5px;
             background-color: rgb(0, 0, 0, 0.75);
-            border-radius: 25px
+            border-radius: 25px;
+            margin-left: 5vw;
         }
 
         .currentWNContainer {
@@ -316,12 +318,6 @@
         }
 
         #currentDayInfo {
-            margin-left: 5vw;
-            width: auto;
-        }
-
-        #currentAstroInfo {
-            margin-left: 5vw;
             width: auto;
         }
 
@@ -339,13 +335,50 @@
             width: 6.5vw;
         }
 
+        #errorDisplayCredit {
+            font-size: 10px;
+        }
+
+        #errorDisplayCredit a {
+            color: #fff;
+        }
+
+        #infoContainers {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        @media only screen and (max-width: 1200px) {
+            #timeContainer {
+                margin-left: 50px
+            }
+
+            #locationContainer {
+                margin-left: 50px;
+            }
+
+            .infoCard,
+            .otherCurrentContainers {
+                margin: 0
+            }
+        }
+
         @media only screen and (max-width: 987px) {
             .mainTitle {
                 font-size: 50px;
             }
 
+            #infoContainers {
+                width: 90vw;
+                margin-left: 2.5vw
+            }
+
             #timeContainer {
-                margin-left: 10px;
+                margin-left: 25px;
+            }
+
+            #locationContainer {
+                margin-left: 25px;
             }
 
             .logoContainer {
@@ -365,6 +398,8 @@
                 flex-direction: column;
                 margin-top: 10px;
                 font-size: 20px;
+                width: 75%;
+                margin-left: 12.5%
             }
 
             #forecastContainer {
@@ -404,9 +439,12 @@
                 max-width: 300px;
                 margin: 0 auto;
                 float: none;
-                margin-top: 10px
+                margin-top: 10px;
             }
 
+            #currentDayContainer {
+                margin-left: 9%
+            }
 
             #forecastTitle {
                 font-size: 20px;
@@ -440,6 +478,11 @@
 
             .mainTitle {
                 font-size: 40px;
+            }
+
+            .infoCard,
+            .otherCurrentContainers {
+                flex-basis: calc(100%);
             }
 
             #timeContainer {
@@ -521,7 +564,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="./holidays.html">More</a></li>
+                                <li><a class="dropdown-item" href="./holidays.html">All Countdowns</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -533,12 +576,12 @@
         </nav>
     </section>
     <section id="mainContent" style="padding-top: 90px;">
-        <section>
+        <section id="infoContainers">
             <div class="container-fluid">
                 <h1 class="mainTitle">Local Time And Date</h1>
                 <hr class="solid">
                 <div class="row">
-                    <div class="col-md-4" id="timeContainer">
+                    <div class="col-md-4 infoCard" id="timeContainer">
                         <p class="smallTitle" id="timezoneClock"></p>
                         <div id="clockContainer">
                             <div id="hour"></div>
@@ -554,7 +597,7 @@
                                     d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z" />
                             </svg></a>
                     </div>
-                    <div class="col-md-4" id="otherInfoContainer">
+                    <div class="col-md-4 infoCard" id="otherInfoContainer">
                         <div class="smallTitle" id="otherInfoTitle">Other Time Info:</div>
                         <div class="info" id="timezoneLocation"></div>
                         <div class="info" id="timezoneInfo"></div>
@@ -562,14 +605,14 @@
                         <div>Timezone map:
                             <br>
                             <img src="./assets/Timezones.png" class="img-fluid"
-                                alt="World map showing the timezones"></img>
+                                alt="world map showing the timezones in different countries and the UTC offset of each one"></img>
                         </div>
                     </div>
                 </div>
-                <div class="row d-flex flex-wrap">
-                    <div class="col-md-4" id="locationContainer">
+                <div class="row">
+                    <div class="col-md-4 infoCard" id="locationContainer">
                         <div class="smallTitle" id="locationTitle">Location Info:</div>
-                        <div class="note">(Location is based on IP adress so is approximate and is never stored)</div>
+                        <div class="note">(Location is based on IP address so is approximate and is never stored)</div>
                         <div>Country: <span id="country"></span> (<span id="country_code"></span>)</div>
                         <div>Region: <span id="state"></span></div>
                         <div>City: <span id="city"></span></div>
@@ -580,7 +623,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4" id="weatherContainer">
+                    <div class="col-md-4 infoCard" id="weatherContainer">
                         <div class="smallTitle">Weather Info:</div>
                         <div id="weatherInfo">
                             <div id="weatherTitle"><svg id="locationIcon" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -599,50 +642,55 @@
                                     <div id="currentFeelslike"></div>
                                 </div>
                             </div>
-                            <div class="row mx-auto">
-                                <div class="col-md-4 currentWDContainer" id="currentDayInfo">
+                            <div class="row" id="currentDayContainer">
+                                <div class="col-md-4 currentWDContainer otherCurrentContainers" id="currentDayInfo">
                                     <div id="windspeed"></div>
                                     <div id="windDirection"></div>
                                     <div id="visibility"></div>
                                     <div id="uvLevel"></div>
                                 </div>
-                                <div class="col-md-4 currentWNContainer" id="currentAstroInfo">
+                                <div class="col-md-4 currentWNContainer otherCurrentContainers" id="currentAstroInfo">
                                     <div id="sunrise"></div>
                                     <div id="sunset"></div>
                                     <div id="moonPhase"></div>
                                 </div>
                             </div>
                             <div class="row" id="forecastContainer">
-                                <div class="col-md-4" id="forecastDay1">
+                                <div class="col-md-4 forecastContainers" id="forecastDay1">
                                     <div id="titleDay1"></div>
-                                    <img id="conditionDay1"></img>
+                                    <img id="conditionImgDay1"></img>
+                                    <div id="conditionDay1"></div>
                                     <div id="avgTempDay1"></div>
                                     <div id="maxTempDay1"></div>
                                     <div id="minTempDay1"></div>
                                 </div>
-                                <div class="col-md-4" id="forecastDay2">
+                                <div class="col-md-4 forecastContainers" id="forecastDay2">
                                     <div id="titleDay2"></div>
-                                    <img id="conditionDay2"></img>
+                                    <img id="conditionImgDay2"></img>
+                                    <div id="conditionDay2"></div>
                                     <div id="avgTempDay2"></div>
                                     <div id="maxTempDay2"></div>
                                     <div id="minTempDay2"></div>
                                 </div>
-                                <div class="col-md-4" id="forecastDay3">
+                                <div class="col-md-4 forecastContainers" id="forecastDay3">
                                     <div id="titleDay3"></div>
-                                    <img id="conditionDay3"></img>
+                                    <img id="conditionImgDay3"></img>
+                                    <div id="conditionDay3"></div>
                                     <div id="avgTempDay3"></div>
                                     <div id="maxTempDay3"></div>
                                     <div id="minTempDay3"></div>
                                 </div>
                             </div>
-                            <div id="lastUpdated"></div>
-                            <div id="errorDisplay"></div>
+                            <p id="lastUpdated"></p>
+                            <p id="errorDisplay"></p>
+                            <img id="errorDisplayImg"></img>
+                            <div id="errorDisplayCredit"></div>
                         </div>
+                        <p id="lastUpdated">Weather data is cached for 15 minutes after first load so content might be slightly outdated.</p>
                         <div id=weatherAttribution>Powered by <a href="https://www.weatherapi.com/"
                                 title="Free Weather API">WeatherAPI.com</a></div>
                     </div>
                 </div>
-            </div>
             </div>
         </section>
         <footer id="footer">
@@ -650,7 +698,8 @@
                 <div class="row" id="footerContent">
                     <div class="col-md-4 footerItem" id="about">
                         <h3>About</h3>
-                        <img src="./assets/Timeswift-logo-(light).png" style="width:40%;height:40%;"></img>
+                        <img src="./assets/Timeswift-logo-(light).png" style="width:40%;height:40%;"
+                            alt="small timeswift logo in footer"></img>
                         <p style="font-size:20px">TimeSwift is about providing a swift and simple solution to people's
                             timekeeping needs</p>
                     </div>
@@ -662,9 +711,15 @@
                         <h3>Links</h3>
                         <a href="https://status.techswift.xyz" target="_blank" rel="noopener noreferrer"
                             class="footerButton">Status</a>
+                        <br>
+                        <a href="./privacyPolicy.html" class="footerButton">Privacy Policy</a>
                     </div>
                 </div>
-                <div class="note">© 2023 techswift.xyz. All rights reserved.</div>
+                <br>
+                <br>
+                <div class="note">© 2023 techswift.xyz. Code licensed under the <a
+                        href="https://github.com/TechSwiftXYZ/timeswift/blob/main/LICENSE" class="footerButton note">GNU
+                        General Public License v3.0 license</a></div>
             </div>
         </footer>
     </section>
@@ -736,7 +791,7 @@
                                 $('#currentTemperature').html(data.current.temp_f + "°F")
                                 $('#currentFeelslike').html("Feels like " + data.current.feelslike_f + "°F")
                                 $('#windspeed').html("Wind speed: " + data.current.wind_mph + "mph")
-                                $('#visibility').html("Visability: " + data.current.vis_miles + "miles")
+                                $('#visibility').html("Visibility: " + data.current.vis_miles + "miles")
                                 $('#avgTempDay1').html(data.forecast.forecastday[0].day.avgtemp_f + "°F")
                                 $('#maxTempDay1').html(data.forecast.forecastday[0].day.maxtemp_f + "°F")
                                 $('#minTempDay1').html(data.forecast.forecastday[0].day.mintemp_f + "°F")
@@ -752,7 +807,7 @@
                                 $('#currentTemperature').html(data.current.temp_c + "°C")
                                 $('#currentFeelslike').html("Feels like " + data.current.feelslike_c + "°C")
                                 $('#windspeed').html("Wind speed: " + data.current.wind_kph + "km/h")
-                                $('#visibility').html("Visability: " + data.current.vis_km + "km")
+                                $('#visibility').html("Visibility: " + data.current.vis_km + "km")
                                 $('#avgTempDay1').html("Avg temp" + "<br>" + data.forecast.forecastday[0].day.avgtemp_c + "°C")
                                 $('#maxTempDay1').html("Max temp" + "<br>" + data.forecast.forecastday[0].day.maxtemp_c + "°C")
                                 $('#minTempDay1').html("Min temp" + "<br>" + data.forecast.forecastday[0].day.mintemp_c + "°C")
@@ -775,14 +830,28 @@
                             $('#titleDay1').html(new Date(data.forecast.forecastday[0].date).toLocaleDateString())
                             $('#titleDay2').html(new Date(data.forecast.forecastday[1].date).toLocaleDateString())
                             $('#titleDay3').html(new Date(data.forecast.forecastday[2].date).toLocaleDateString())
-                            $('#conditionDay1').attr('src', data.forecast.forecastday[0].day.condition.icon)
-                            $('#conditionDay2').attr('src', data.forecast.forecastday[1].day.condition.icon)
-                            $('#conditionDay3').attr('src', data.forecast.forecastday[2].day.condition.icon)
+                            $('#conditionImgDay1').attr('src', data.forecast.forecastday[0].day.condition.icon)
+                            $('#conditionImgDay2').attr('src', data.forecast.forecastday[1].day.condition.icon)
+                            $('#conditionImgDay3').attr('src', data.forecast.forecastday[2].day.condition.icon)
+                            $('#conditionDay1').attr('src', data.forecast.forecastday[0].day.condition.text)
+                            $('#conditionDay2').attr('src', data.forecast.forecastday[1].day.condition.text)
+                            $('#conditionDay3').attr('src', data.forecast.forecastday[2].day.condition.text)
                             $('#lastUpdated').html("Last updated at " + new Date(data.current.last_updated).toLocaleTimeString())
                         },
                         error: function (xhr, status, error) {
-                            if (error) {
-                                $('#errorDisplay').html(`There was an error. Error status code (use this when reporting the error): ${status}`)
+                            if (xhr.status === 200) {
+                                $('#errorDisplay').html(`There was an error with code 200. Usually this means that everything has gone OK but if you're seeing this message with no weather data then something must have gone wrong. Contact support on the help page.`)
+                                $('#errorDisplayImg').attr('src', `https://http.cat/${xhr.status}`)
+                                $('#errorDisplayCredit').html('Image credit: <a href="https://http.cat">HTTP Cats</a>')
+                                document.getElementById('errorDisplayImg').style = 'width: 50%;height:50%;border-radius:5px'
+                            }
+                            else if (xhr.status) {
+                                $('#errorDisplay').html(`There was an error. Error status code (use this when reporting the error): ${xhr.status}`)
+                                $('#errorDisplayImg').attr('src', `https://http.cat/${xhr.status}`)
+                                $('#errorDisplayCredit').html('Image credit: <a href="https://http.cat">HTTP Cats</a>')
+                                document.getElementById('errorDisplayImg').style = 'width: 50%;height:50%;border-radius:5px'
+                            } else {
+                                $('#errorDisplay').html(`An unknown error occurred. Please use the help page for further help.`)
                             }
                         }
                     });
@@ -793,10 +862,10 @@
                     $('#latlong').html(location.latitude + ", " + location.longitude);
 
                     var element = document.getElementById('osm-map');
-                    element.style = 'height:35vh;width:31.75vw;border-radius: 25px';
+                    element.style = 'height:35vh;width:25vw;border-radius: 25px';
 
                     if (window.matchMedia("(max-width: 768px)").matches) {
-                        element.style = 'height:35vh;width:70vw;';
+                        element.style = 'height:35vh;width:70vw;border-radius: 25px';
                     }
 
                     var map = L.map(element);

@@ -12,26 +12,27 @@
     <!-- End Matomo Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A list of countdowns to popular holidays/events. Solve all your timekeeping needs with TimeSwift. Set a timer, start a stopwatch, and more.">
-    <meta name="keywords" content="holiday countdown, Timer, Countdown, Easter countdown, Christmas countdown, New year countdown, New year eve countdown">
+    <meta name="description"
+        content="A list of countdowns to popular holidays/events. Solve all your timekeeping needs with TimeSwift. Set a timer, start a stopwatch, and more.">
+    <meta name="keywords"
+        content="holiday countdown, Timer, Countdown, Easter countdown, Christmas countdown, New year countdown, New year eve countdown">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.js"
-        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-    <link href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" rel="stylesheet" />
-    <title>TimeSwift | Holidays</title>
+    <title>Holidays | TimeSwift</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="https://time.techswift.xyz/assets/apple-touch-icon-180x180.png">
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
 </head>
 
 <body>
     <style>
+        @font-face {
+            font-family: 'Inter';
+            src: url(./assets/inter/Inter-V.ttf);
+        }
+
         body {
             background: black;
             color: #fff;
@@ -39,7 +40,7 @@
             font-size: 20px;
             font-weight: normal;
             letter-spacing: 2px;
-            background-color: rgb(0, 5, 17);
+            background-color: rgb(0, 9, 29);
             text-align: center;
             overflow-x: hidden;
         }
@@ -58,7 +59,7 @@
         }
 
         .navbar {
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: rgba(0, 0, 0, 0.90);
             color: white !important;
             border-radius: 30px;
         }
@@ -96,7 +97,8 @@
             border-radius: 25px;
             background-color: #ffffff10;
             color: #fff;
-            margin: 20px
+            margin: 20px;
+            flex-basis: calc((100% - 60px) / 2);
         }
 
         .card:hover {
@@ -105,7 +107,9 @@
 
         .cards {
             padding: 10px;
-            margin-left: 17.5vw
+            margin-left: 17.5vw;
+            display: flex;
+            flex-wrap: wrap;
         }
 
         .smallTitle {
@@ -164,16 +168,26 @@
             margin-top: 20px
         }
 
-        @media only screen and (max-width: 987px) {
+        @media only screen and (min-width: 1200px) {
+            .card {
+                flex-basis: calc(100% / 4 - 40px);
+            }
+
+            .cards {
+                padding: 10px;
+                margin-left: 5vw;
+                width: 90vw;
+            }
+        }
+
+        @media only screen and (max-width: 1200px) {
 
             .mainTitle {
                 font-size: 50px
             }
 
-            .cards {
-                padding: 10px;
-                margin: 10px;
-                margin-left: 87.5px
+            .card {
+                flex-basis: calc((100% - 100px) / 2);
             }
 
             .logoContainer {
@@ -187,13 +201,13 @@
                 font-size: 40px
             }
 
+            .card {
+                flex-basis: calc((100% - 80px));
+            }
+
             .logoContainer {
                 height: 7.5vw;
                 width: 20vw
-            }
-
-            .cards {
-                margin-left: 25px
             }
         }
     </style>
@@ -243,7 +257,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="./holidays.html">More</a></li>
+                                <li><a class="dropdown-item" href="./holidays.html">All Countdowns</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -259,7 +273,7 @@
         <hr class="solid">
         <section class="cards">
             <div class="row">
-                <div class="card col-md-4" style="width: 18rem;">
+                <div class="card col-md-4">
                     <div class="card-body">
                         <div class="smallTitle">New Year's Countdown | 01/01/24</div>
                     </div>
@@ -267,7 +281,7 @@
                         for New Year's Eve</p>
                     <a href="./holidays/newYearCountdown.html" class="holidayLink">New Year's Countdown</a>
                 </div>
-                <div class="card col-md-4" style="width: 18rem;">
+                <div class="card col-md-4">
                     <div class="card-body">
                         <div class="smallTitle">Easter Countdown | 31/03/24</div>
                     </div>
@@ -276,7 +290,7 @@
                     </p>
                     <a href="./holidays/easterCountdown.html" class="holidayLink">Easter Countdown</a>
                 </div>
-                <div class="card col-md-4" style="width: 18rem;">
+                <div class="card col-md-4">
                     <div class="card-body">
                         <div class="smallTitle">Eid ul-Fitr Countdown | 22/04/23</div>
                     </div>
@@ -285,7 +299,7 @@
                     </p>
                     <a href="./holidays/eid-ul-fitrCountdown.html" class="holidayLink">Eid ul-Fitr Countdown</a>
                 </div>
-                <div class="card col-md-4" style="width: 18rem;">
+                <div class="card col-md-4">
                     <div class="card-body">
                         <div class="smallTitle">Eid al-Adha Countdown | 29/06/23</div>
                     </div>
@@ -295,7 +309,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="card col-md-4" style="width: 18rem;">
+                <div class="card col-md-4">
                     <div class="card-body">
                         <div class="smallTitle">Pentecost Countdown | 28/05/23</div>
                     </div>
@@ -303,7 +317,7 @@
                     </p>
                     <a href="./holidays/pentecostCountdown.html" class="holidayLink">Pentecost Countdown</a>
                 </div>
-                <div class="card col-md-4" style="width: 18rem;">
+                <div class="card col-md-4">
                     <div class="card-body">
                         <div class="smallTitle">Halloween Countdown | 31/10/23</div>
                     </div>
@@ -311,14 +325,14 @@
                     </p>
                     <a href="./holidays/halloweenCountdown.html" class="holidayLink">Halloween Countdown</a>
                 </div>
-                <div class="card col-md-4" style="width: 18rem;">
+                <div class="card col-md-4">
                     <div class="card-body">
                         <div class="smallTitle">Diwali Countdown | 12/11/23</div>
                     </div>
                     <p class="card-text">Countdown to Diwali</p>
                     <a href="./holidays/diwaliCountdown.html" class="holidayLink">Diwali Countdown</a>
                 </div>
-                <div class="card col-md-4" style="width: 18rem;">
+                <div class="card col-md-4">
                     <div class="card-body">
                         <div class="smallTitle">Christmas Countdown | 25/12/23</div>
                     </div>
@@ -345,9 +359,15 @@
                         <h3>Links</h3>
                         <a href="https://status.techswift.xyz" target="_blank" rel="noopener noreferrer"
                             class="footerButton">Status</a>
+                            <br>
+                        <a href="./privacyPolicy.html" class="footerButton">Privacy Policy</a>
                     </div>
                 </div>
-                <div class="note">© 2023 techswift.xyz. All rights reserved.</div>
+                <br>
+                <br>
+                <div class="note">© 2023 techswift.xyz. Code licensed under the <a
+                    href="https://github.com/TechSwiftXYZ/timeswift/blob/main/LICENSE" class="footerButton note">GNU General Public
+                    License v3.0 license</a></div>
             </div>
         </footer>
     </section>

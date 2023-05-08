@@ -16,26 +16,24 @@
     <meta name="description"
         content="Solve all your timekeeping needs with TimeSwift. Set a timer, start a stopwatch, countdown to Christmas, view the time across the world and more with TimeSwift.">
     <meta name="keywords"
-        content="timeswift, Timer, Stopwatch, Time, Countdown, Easter countdown, Christmas countdown, current time, what time is it, current clock, time and date, current date, date today, uk time, time in america">
+        content="timeswift, time techswift, time swift, Timer, Stopwatch, Time, Countdown, Easter countdown, Christmas countdown, current time, what time is it, current clock, time and date, current date, date today, uk time, time in america">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.4.js"
-        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-    <link href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" rel="stylesheet" />
     <link rel="canonical" href="https://time.techswift.xyz/" />
-    <title>TimeSwift | Timers, stopwatches, countdowns and more</title>
+    <title>Streamline your timekeeping needs | TimeSwift</title>
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
 </head>
 
 <body>
     <style>
+        @font-face {
+            font-family: 'Inter';
+            src: url(./assets/inter/Inter-V.ttf);
+        }
+
         body {
             background: black;
             color: #fff;
@@ -43,7 +41,7 @@
             font-size: 20px;
             font-weight: normal;
             letter-spacing: 2px;
-            background-color: rgb(0, 5, 17);
+            background-color: rgb(0, 9, 29);
             text-align: center;
             overflow-x: hidden;
         }
@@ -55,7 +53,7 @@
         .mainTitle {
             font-weight: bold;
             font-size: 100px;
-            line-height: 100px;
+            line-height: 110px;
         }
 
         #mainTitleSwitch {
@@ -129,6 +127,27 @@
             padding-bottom: 40px;
         }
 
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            border-radius: 25px;
+            background-color: #ffffff10;
+            color: #fff;
+            margin: 20px;
+            flex-basis: calc((100% - 60px) / 2);
+        }
+
+        .card:hover {
+            box-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.75);
+        }
+
+        .cards {
+            padding: 10px;
+            margin-left: 17.5vw;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
         #clock {
             font-size: 35px
         }
@@ -153,12 +172,12 @@
             padding-bottom: 10px
         }
 
-        .footerButton {
+        .link {
             color: #fff;
             font-size: 20px;
         }
 
-        .footerButton:hover {
+        .link:hover {
             color: #767676;
         }
 
@@ -190,8 +209,36 @@
             height: 80%;
         }
 
+        .holidayLink {
+            padding: 5px;
+            color: rgb(255, 255, 255);
+            background-color: rgba(255, 255, 255, 0.2);
+            border-width: 2px;
+            border-radius: 30px;
+            font-size: 20px;
+            margin-top: 50px;
+            margin: 10px;
+            text-decoration: none;
+        }
 
-        @media only screen and (max-width: 987px) {
+        .holidayLink:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        @media only screen and (min-width: 1200px) {
+            .card {
+                flex-basis: calc(100% / 4 - 40px);
+            }
+
+            .cards {
+                padding: 10px;
+                margin-left: 5vw;
+                width: 90vw;
+            }
+        }
+
+        @media only screen and (max-width: 1200px) {
 
             .mainTitle {
                 font-size: 50px;
@@ -218,6 +265,16 @@
                 margin-top: 250px;
                 border-width: 2px;
                 width: 60vw
+            }
+
+            .card {
+                flex-basis: calc((100% - 100px) / 2);
+            }
+
+            .cards {
+                padding: 10px;
+                margin-left: 5vw;
+                width: 90vw;
             }
         }
 
@@ -248,13 +305,22 @@
                 margin-top: 25px;
                 width: 80vw
             }
+
+            .divider-vertical {
+                border-left: 0px;
+                height: 80%;
+            }
+
+            .card {
+                flex-basis: calc((100% - 80px));
+            }
         }
     </style>
     <section id="navbar">
         <nav class="navbar navbar-expand-xl navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="./index.html">
-                    <img class="logoContainer" src="./assets/Timeswift-logo-(light).png" alt="timeswift logo"></img>
+                    <img class="logoContainer" src="./assets/Timeswift-logo-(light).png" alt="timeswift logo in navbar"></img>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -296,7 +362,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="./holidays.html">More</a></li>
+                                <li><a class="dropdown-item" href="./holidays.html">All Countdowns</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -308,11 +374,11 @@
         </nav>
     </section>
     <section id="mainContent" style="padding-top: 90px;">
-        <h1 id="titleContainer">
+        <div id="titleContainer">
             <div id="title">
-                <div class="mainTitle" id="mainTitle">Streamline your timekeeping with TimeSwift</div>
+                <h1 class="mainTitle" id="mainTitle">Streamline your timekeeping with TimeSwift</h1>
             </div>
-        </h1>
+        </div>
         <hr class="solid">
         </hr>
         <section id="quickWidgets">
@@ -323,7 +389,7 @@
                         <div id="clock">00:00:00</div>
                         <div id="date">00/00/00</div>
                         <div id="small">Current time in <span id="city"></span></div>
-                        <a href="./clock.html" style="font-size: 20px">View Full Time Page</a>
+                        <a href="./clock.html" class="link">View Full Time Page</a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -332,15 +398,73 @@
                         <div class="info" id="timezoneLocation"></div>
                         <div class="info" id="timezoneInfo"></div>
                         <div class="info" id="timezoneOffset"></div>
-                        <a href="./clock.html" style="font-weight: bold">View Full Timezone Page</a>
+                        <a href="./clock.html" class="link">View Full Timezone Page</a>
                     </div>
                 </div>
+            </div>
         </section>
         <br>
         <hr class="solid">
         <br>
-        <section id="aboutTimeswift">
-            <div class="smallTitle">Why TimeSwift?</div>
+        <h2 class="smallTitle">Holiday Countdowns</h2>
+        <section class="cards">
+            <div class="row">
+                <div class="card col-md-4">
+                    <div class="card-body">
+                        <div class="smallTitle">New Year's Countdown</div>
+                    </div>
+                    <p class="card-text">01/01/24<br>Countdown to New Year's Day along with a countdown
+                        for New Year's Eve</p>
+                    <a href="./holidays/newYearCountdown.html" class="holidayLink">New Year's Countdown</a>
+                </div>
+                <div class="card col-md-4">
+                    <div class="card-body">
+                        <div class="smallTitle">Easter Countdown</div>
+                    </div>
+                    <p class="card-text">31/03/24<br>Countdown to Easter Sunday along with countdowns for other dates related to
+                        Easter
+                    </p>
+                    <a href="./holidays/easterCountdown.html" class="holidayLink">Easter Countdown</a>
+                </div>
+                <div class="card col-md-4">
+                    <div class="card-body">
+                        <div class="smallTitle">Christmas Countdown</div>
+                    </div>
+                    <p class="card-text">25/12/23<br>Countdown to Christmas Day along with countdowns for other dates related to
+                        Christmas</p>
+                    <a href="./holidays/christmasCountdown.html" class="holidayLink">Christmas Countdown</a>
+                </div>
+                <div class="card col-md-4">
+                    <div class="card-body">
+                        <div class="smallTitle">Halloween Countdown</div>
+                    </div>
+                    <p class="card-text">31/10/23<br>A countdown to this year's spooky celebrations, Halloween
+                    </p>
+                    <a href="./holidays/halloweenCountdown.html" class="holidayLink">Halloween Countdown</a>
+                </div>
+            </div>
+        </section>
+        <br>
+        <hr class="solid">
+        <br>
+        <section id="whatTimeswift">
+            <h2 class="smallTitle">What is TimeSwift?</h2>
+            <br>
+            <div class="container-fluid">
+                <div class="row">
+                    <div style="text-align: center;width: 80vw;margin-left:10vw;">
+                        <p>TimeSwift is a website based around solving your timekeeping needs while being fast and
+                            private. You can see how we achieved this goal below. We've made TimeSwift as simple and
+                            easy to use as possible so you can swiftly access the information you need. There's lots to
+                            do on our website like timers, stopwatches, holiday countdowns, world clocks, local clocks,
+                            and more to come in the future</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <hr class="solid">
+        <section id="whyTimeswift">
+            <h2 class="smallTitle">Why TimeSwift?</h2>
             <br>
             <div class="container-fluid">
                 <div class="row">
@@ -352,10 +476,11 @@
                             <path
                                 d="M9.5 6.5a1.5 1.5 0 0 1-1 1.415l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99a1.5 1.5 0 1 1 2-1.415z" />
                         </svg>
-                        <div class="aboutTitle">Private</div>
+                        <h3 class="aboutTitle">Private</h3>
                         <p>TimeSwift respects your privacy. We don't use any cookies or invasive trackers and the
                             analytics tool we use (Matomo On-Premise) is ran on the host servers so no data is shared
-                            with Matomo or Google, and you can even opt out <a href="./help.html">on TimeSwift's help
+                            with Matomo or Google, and you can even opt out <a href="./help.html" class="link">on
+                                TimeSwift's help
                                 page</a>.</p>
                     </div>
                     <div class="col-md-4 divider-vertical">
@@ -366,7 +491,7 @@
                             <path fill-rule="evenodd"
                                 d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z" />
                         </svg>
-                        <div class="aboutTitle">Fast and simple</div>
+                        <h3 class="aboutTitle">Fast and simple</h3>
                         <p>TimeSwift streamlines your timekeeping needs. Because we don't use any ads or analytics tools
                             that have to load in lots
                             of external trackers, TimeSwift is fast and the simple layout with darker colours is simple
@@ -382,7 +507,7 @@
                             <path fill-rule="evenodd"
                                 d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z" />
                         </svg>
-                        <div class="aboutTitle">Helpful</div>
+                        <h3 class="aboutTitle">Helpful</h3>
                         <p>TimeSwift has an extensive list of helpful pages on our website for all your timekeeping
                             needs like
                             timers, a stopwatch, holiday countdowns, weather info, the time and date and a world clock
@@ -397,21 +522,28 @@
                     <div class="col-md-4 footerItem" id="about">
                         <h3>About</h3>
                         <img src="./assets/Timeswift-logo-(light).png" style="width:40%;height:40%;"
-                            alt="timeswift logo"></img>
+                            alt="timeswift logo in footer"></img>
                         <p style="font-size:20px">TimeSwift is about providing a swift and simple solution to people's
                             timekeeping needs</p>
                     </div>
                     <div class="col-md-4 footerItem" id="contact">
                         <h3>Contact</h3>
-                        <a href="./help.html" class="footerButton">Contact Us</a>
+                        <a href="./help.html" class="link">Contact Us</a>
                     </div>
                     <div class="col-md-4 footerItem" id="socials">
                         <h3>Links</h3>
                         <a href="https://status.techswift.xyz" target="_blank" rel="noopener noreferrer"
-                            class="footerButton">Status</a>
+                            class="link">Status</a>
+                        <br>
+                        <a href="./privacyPolicy.html" class="link">Privacy Policy</a>
                     </div>
                 </div>
-                <div class="note">© 2023 techswift.xyz. All rights reserved.</div>
+                <br>
+                <br>
+                <div class="note">© 2023 techswift.xyz. Code licensed under the <a
+                        href="https://github.com/TechSwiftXYZ/timeswift/blob/main/LICENSE" class="link note">GNU General
+                        Public
+                        License v3.0 license</a></div>
             </div>
         </footer>
     </section>
